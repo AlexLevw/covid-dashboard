@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 
 import Graph from "./Chart/Chart";
-import DataCovid19 from "../modules/data/data.js";
+import DataCovid19 from "../covid-dashboard/modules/data/data.js";
 
 // const Li = ({ Country }) => {
 //   return <li>{Country}</li>;
