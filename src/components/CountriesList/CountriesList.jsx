@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './_CountriesList.scss';
-import ListItems from './ListItems';
+import ListItems from './ListItems/ListItems';
 import CountriesSearch from './CountriesSearch/CountriesSearch';
 import CategorySwitcher from './CategorySwitcher/CategorySwitcher';
+import Requests from '../../modules/data/data';
 
-function sendRequest(url) {
-  return fetch(url).then((response) => response.json());
-}
+const request = new Requests();
 
 export default class CountriesList extends Component {
   constructor(props) {
@@ -32,7 +31,7 @@ export default class CountriesList extends Component {
   }
 
   componentDidMount() {
-    sendRequest('https://api.covid19api.com/summary')
+    request.getSummary()
     .then(data => {
       this.setCountries(data.Countries);
       this.setFilteredCountries(data.Countries);

@@ -7,8 +7,8 @@ export default class CountriesSearch extends Component {
     this.props.filteringCountries(e.target.value);
   }
 
-  clearSearch() {
-    document.querySelector('.search-bar').value = '';
+  clearSearch = () => {
+    this.props.filteringCountries('');
   }
 
   render() {
