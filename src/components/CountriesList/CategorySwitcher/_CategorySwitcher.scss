@@ -1,0 +1,32 @@
+.category-switcher {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 10px 4px 10px;
+  color: white;
+  border-top: solid rgba(40, 40, 40, 1) 4px;
+  .switcher-array {
+    width: 18px;
+    height: 18px;
+    color: #d61616;
+    font-weight: 800;
+    background: url('../../../modules/assets/arrow.svg') 0 0/cover no-repeat;
+    transition: .2s;
+
+    &:last-child {
+      transform: rotate(180deg);
+    }
+
+    &:hover {
+      opacity: .5;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  .switcher-title {
+
+  }
+}
