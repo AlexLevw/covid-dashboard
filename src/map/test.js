@@ -1,69 +1,72 @@
-import './index.scss'
+async function request(url) {
+  const response = await fetch(url, {method: "GET",redirect: "follow"});
 
-import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
+  if (!response.ok) {
+    throw new Error(
+      `Could not fetch Data Voice ${url}, received ${response.status}`,
+    );
+  }
+  const result = await response.json();
 
-// import CustomMarker from './marker';
+  return result;
+}
 
-import { MapContainer, Map, Popup, Marker, TileLayer, useMap } from "react-leaflet";
-import { createControlComponent } from '@react-leaflet/core';
-import L from 'leaflet';
+const stateAPI = "https://api.covid19api.com/"
 
+const summary =  request(`${stateAPI}summary`).then( ( data ) => {
 
-import dataJSON from './country.js'
+  const countryAll = data.Countries;
+    for (var i = 0; i < dataJSON.length; i++) {
+      let result = countryAll.find((item) => {
+        return item['CountryCode'] === dataJSON[i]['alpha2']});
+          if(!(typeof result === 'undefined')){
+            dataJSON[i]['Slug'] = result["Slug"]
+            dataJSON[i]['TotalConfirmed'] = result["TotalConfirmed"]
+            dataJSON[i]['TotalDeaths'] = result["TotalDeaths"]
+            dataJSON[i]['NewRecovered'] = result["NewRecovered"]
+          }
+        }
+        return dataJSON;
+      });
 
-// const MyMap = ( props ) => {
-//     // const data = dataJSON
-//     return (
-//       <button id="data" onClick >Hello!</button>
-//     )
-// }
-
-const MyMap = (props) => {
-
-  const position = [53, 28]
-  const zoom = 2
   const listCountry = dataJSON.map(( item ) => {
-    const nameCantry = "Беларусь"
-    const ill = 23
-    const recover = 22
-    const died = 1
+    const myIcon = L.icon({
+      iconUrl: icon,
+      iconSize: [10,10],
+      popupAnchor: [-10, -10],
+    });
 
-    const pos = [item.latitude,  item.longitude];
+
+ const wait = summary.then( ( summaruData ) => {
+    let result = summaruData.find((i) => {
+      return i['CountryCode'] == item['alpha2']});
+        if(!(typeof result === 'undefined')){
+          item['Slug'] = result["Slug"]
+          item['TotalConfirmed'] = result["TotalConfirmed"]
+          item['TotalDeaths'] = result["TotalDeaths"]
+          item['NewRecovered'] = result["NewRecovered"]
+        }else{
+          item['Slug'] = "no data"
+          item['TotalConfirmed'] = "no data"
+          item['TotalDeaths'] = "no data"
+          item['NewRecovered'] = "no data"
+        }
+    })
+    const ill = "wait ...";
+    const recover = "wait ...";
+    const died = "wait ...";
+
+
+    const pos = [item.latitude, item.longitude];
+
     return (
-      <Marker position = { pos }
-      onMouseOver={(e) => {
-      e.target.openPopup();
-      console.log("hello");
-      }}
-      onMouseOut={(e) => {
-        e.target.closePopup();
-      }}
-      >
+      <Marker position = { pos }  icon={myIcon} key={ item.numeric }>
         <Popup>
           { item.country } <br />
-          Заболевшие: {ill}<br />
-          Выздоровевшие: {recover}<br />
-          Умершие: {died}
+          Заболевшие: { ill }<br />
+          Выздоровевшие: { recover }<br />
+          Умершие: { died }
         </Popup>
       </Marker>
     )
   })
-
-  return (
-    <MapContainer center={position}
-    zoom={ zoom }
-    scrollWheelZoom={false}
-    zoomControl={true}
-    >
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-
-      />
-      {listCountry}
-
-    </MapContainer>
-  );
-};
-export default MyMap;
