@@ -1,53 +1,32 @@
-import React, { Component } from 'react';
-import './_CountriesList.scss';
+import React, { useEffect, useState } from 'react';
 import ListItems from './ListItems/ListItems';
 import CountriesSearch from './CountriesSearch/CountriesSearch';
 import CategorySwitcher from './CategorySwitcher/CategorySwitcher';
-import Requests from '../../modules/data/data';
+import './_CountriesList.scss';
 
-const request = new Requests();
+export default function CountriesList(props) {
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
-export default class CountriesList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      countries: [],
-      filteredCountries: []
-    };
-  }  
+  useEffect(() => {
+    setFilteredCountries(props.statisticsData.Countries);
+  }, [props.statisticsData.Countries]);
 
-  setCountries = (value) => {
-    this.setState({ countries: value });
-  }
-
-  setFilteredCountries = (value) => {
-    this.setState({ filteredCountries: value });
-  }
-
-  filteringCountries = (filter) => {
-    this.setFilteredCountries(this.state.countries.filter((item) => {
+  const filteringCountries = (filter) => {
+    setFilteredCountries(props.statisticsData.Countries.filter((item) => {
       return item.Country.toLowerCase().includes(filter.toLowerCase());
     }));
   }
 
-  componentDidMount() {
-    request.getSummary()
-    .then(data => {
-      this.setCountries(data.Countries);
-      this.setFilteredCountries(data.Countries);
-    }) 
-    .catch(err => {
-      console.log(err);
-    });
-  }
-
-  render() {
-    return (
-      <div className="countries-list">
-        <CountriesSearch filteringCountries={ this.filteringCountries } />
-        <ListItems indicator={ this.props.indicator } countries={ this.state.filteredCountries }/>
-        <CategorySwitcher indicator={ this.props.indicator } setIndicator={ this.props.setIndicator }/>
-      </div>
-    );
-  }
+  return (
+    <div className="countries-list">
+      <CountriesSearch filteringCountries={ filteringCountries } />
+      <ListItems
+        indicator={ props.indicator }
+        countries={ filteredCountries }
+        currentCountry={ props.currentCountry }
+        setCurrentCountry={ props.setCurrentCountry }
+      />
+      <CategorySwitcher indicator={ props.indicator } changeIndicator={ props.changeIndicator }/>
+    </div>
+  );
 }

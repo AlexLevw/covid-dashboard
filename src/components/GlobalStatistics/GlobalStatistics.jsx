@@ -2,26 +2,16 @@ import React, {useEffect, useState} from 'react';
 import GlobalItem from './GlobalItem/GlobalItem';
 import './_GlobalStatistics.scss';
 
-function sendRequest(url) {
-  return fetch(url).then((response) => response.json());
-}
-
-export default function GlobalStatistics() {
+export default function GlobalStatistics({ GlobalData }) {
   const [Confirmed, setConfirmed] = useState(0);
   const [Deaths, setDeaths] = useState(0);
   const [Recovered, setRecovered] = useState(0);
 
   useEffect(() => {
-    sendRequest('https://api.covid19api.com/summary')
-  .then(data => {
-    setConfirmed(data.Global.TotalConfirmed);
-    setDeaths(data.Global.TotalDeaths);
-    setRecovered(data.Global.TotalRecovered);
-  }) 
-  .catch(err => {
-    console.log(err);
-  });
-  }, []);
+    setConfirmed(GlobalData.TotalConfirmed);
+      setDeaths(GlobalData.TotalDeaths);
+      setRecovered(GlobalData.TotalRecovered);
+  }, [GlobalData]);
   return (
   <div className="global-statistics">
     <span className="global-statistics__title">Global Statistics</span>

@@ -1,20 +1,24 @@
 .global-statistics {
-  width: 180px;
-  height: 140px;
+  width: 300px;
+  height: 100%;
   margin-right: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-color: rgb(40, 40, 40);
 
   .global-statistics__title {
     color: white;
     font-size: 16px;
-    margin-bottom: 14px;
+    margin-top: 20px;
+    font-size: 1.2em;
   }
 
   .global-statistics__list {
-    
+    height: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }

@@ -12,9 +12,19 @@ body {
   height: 100%;
 }
 
-.lists {
+.right-section {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
+  top: 10px;
+  right: 10px;
+  width: 600px;
+
+  .right-section__top {
+    height: 220px;
+    display: flex;
+  }
+
+  .right-section__middle {
+    height: 140px;
+    margin-top: 10px;
+  }
 }

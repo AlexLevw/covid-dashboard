@@ -32,4 +32,12 @@ export default class Requests {
 
     return result;
   }
+
+  async getPopulation() {
+    const result = await this.request(
+      `https://restcountries.eu/rest/v2/all?fields=name;population`,
+    );
+
+    return result;
+  }
 }

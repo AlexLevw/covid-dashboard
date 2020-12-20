@@ -1,5 +1,8 @@
 .countries-list {
-  width: 300px;
+  width: 100%;
   background-color: rgba(40, 40, 40, .9);
   border: solid rgba(40, 40, 40, 1) 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './_CategorySwitcher.scss';
 import arrow from '../../../modules/assets/arrow.svg';
+import './_CategorySwitcher.scss';
 
 export default class CategorySwitcher extends Component {
   render() {
@@ -10,14 +10,14 @@ export default class CategorySwitcher extends Component {
           src={ arrow }
           alt="arrow"
           className="switcher-array"
-          onClick={ () =>  this.props.setIndicator(1) }
+          onClick={ () =>  this.props.changeIndicator(1) }
         />
         <div className="switcher-title">{ this.props.indicator.title }</div>
         <img 
           src={ arrow }
           alt="arrow"
           className="switcher-array"
-          onClick={ () =>  this.props.setIndicator(-1) }
+          onClick={ () =>  this.props.changeIndicator(-1) }
         />
       </div>
     );
