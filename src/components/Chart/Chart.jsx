@@ -1,12 +1,40 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 
 import Chart from "chart.js";
+import DataCovid19 from "../../modules/data/data";
 
 const Graph = () => {
   const canvas = useRef(null);
+  
+  const [data, setData] = useState(new DataCovid19());
+
+  const getCountries = () => {
+    return data.getCountryTotal();
+  };
+
+  const [dateState, setDateState] = useState(null);
+  const useRequest = (request) => {
+
+    useEffect(() => {
+      let cancelled = false;
+
+      request().then((data) => !cancelled && setDateState(data));
+      return () => (cancelled = true);
+    }, [request]);
+
+    return dateState;
+  };
+
+  const useCounties = () => {
+    const request = useCallback(() => getCountries(), []);
+    return useRequest(request);
+  };
+  
+  useCounties();
 
   useEffect(() => {
     const ctx = canvas.current.getContext("2d");
+    console.log(dateState);
     new Chart(ctx, {
       type: "line",
       data: {
@@ -30,7 +58,8 @@ const Graph = () => {
         //Customize chart options
       },
     });
-  });
+  }, [dataState]);
+  
 
   return <canvas className="canvas" ref={canvas} />;
 };
