@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './_CountriesSearch.scss';
 
-export default class CountriesSearch extends Component {
+export default function CountriesSearch({ filteringCountries }) {
   
-  onSearch = (e) => {
-    this.props.filteringCountries(e.target.value);
+  function onSearch(e) {
+    filteringCountries(e.target.value);
   }
 
-  clearSearch = () => {
-    this.props.filteringCountries('');
+  function clearSearch() {
+    filteringCountries('');
+    document.querySelector('.search-bar').value = '';
   }
 
-  render() {
-    return (
-      <div className="countries-search">
-        <input 
-          className="search-bar"
-          onKeyUp={ this.onSearch }
-          type="text"
-          name="searchBar"
-          placeholder="search for a countries"
-        />
-        <div className="clear-btn" onClick={ this.clearSearch }>
-          <span>clear</span>
-        </div>
+  return (
+    <div className="countries-search">
+      <input 
+        className="search-bar"
+        onKeyUp={ onSearch }
+        type="text"
+        name="searchBar"
+        placeholder="search for a countries"
+      />
+      <div className="clear-btn" onClick={ clearSearch }>
+        <span>clear</span>
       </div>
-    );
-  }
+    </div>
+  );
 }

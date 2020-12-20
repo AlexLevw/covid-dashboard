@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StatisticItems from './StatisticItems/StatisticItems';
 import StatisticSwitcher from './StatisticSwitcher/StatisticSwitcher';
+import Modal from '../Modal/Modal';
 import './_CountryStatistics.scss';
 
 export default function CountryStatistics(
@@ -11,6 +12,7 @@ export default function CountryStatistics(
   const [Recovered, setRecovered] = useState(0);
   const [isAllTime, setIsAllTime] = useState(true);
   const [isAllPopulation, setIsAllPopulation] = useState(true);
+  const [lastDate, setLastDate] = useState([]);
   
   useEffect(() => {
     if(currentCountryCode === 'Global') {
@@ -37,6 +39,12 @@ export default function CountryStatistics(
           );
         }
       } else {
+        const countryDate = new Date(country.Date);
+        setLastDate(`
+        ${countryDate.getDate()} /
+        ${countryDate.getMonth()} /
+        ${countryDate.getFullYear()}
+        `);
         if(isAllPopulation) {
           setConfirmed(country.NewConfirmed);
           setDeaths(country.NewDeaths);
@@ -60,6 +68,42 @@ export default function CountryStatistics(
   return (
     <div className="country-statistics">
       <div className="country-statistics__header">
+        <span>Countries statistics</span>
+
+        {/* Modal window start*/}
+        <Modal modalObj={
+          <div className="statistics-modal">
+            <div className="country-statistics__top">
+              <StatisticSwitcher
+                setParam={ setIsAllTime }
+                isParam={ isAllTime }
+                titles={ ['All Time', 'Last Day'] }
+              />
+              <div className="country-block">
+                {
+                  currentCountryName === 'Global' ? null
+                  : <img className="country-flag" src={ `https://www.countryflags.io/${currentCountryCode}/flat/32.png` } alt="flag"/>
+                }
+                <span className="country-title">{ currentCountryName }</span>
+              </div>
+              <StatisticSwitcher 
+                setParam={ setIsAllPopulation }
+                isParam={ isAllPopulation }
+                titles={ ['All Population', '100,000 Population'] }
+              />
+            </div>
+            <StatisticItems
+              Confirmed={ Confirmed }
+              Deaths={ Deaths }
+              Recovered={ Recovered }
+            />
+            { !isAllTime ? <div className="statistic-date"><span>{ lastDate }</span></div> : null }
+          </div>
+        }/>
+        {/* Modal window end */}
+
+      </div>
+      <div className="country-statistics__top">
         <StatisticSwitcher
           setParam={ setIsAllTime }
           isParam={ isAllTime }
@@ -83,6 +127,7 @@ export default function CountryStatistics(
         Deaths={ Deaths }
         Recovered={ Recovered }
       />
+      { !isAllTime ? <div className="statistic-date"><span>{ lastDate }</span></div> : null }
     </div>
   ); 
 }

@@ -1,0 +1,16 @@
+.statistics__items {
+  height: 100%;
+  margin: 0 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .statistics__title {
+    color: white;
+    margin-right: 10px;
+  }
+
+  .statistics__number {
+    color: #d61616;
+  }
+}

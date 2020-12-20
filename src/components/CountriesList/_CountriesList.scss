@@ -5,4 +5,54 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  .countries-list__header {
+    position: relative;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-bottom: solid rgba(40, 40, 40, 1) 4px;
+    background-color: rgb(40, 40, 40);
+  }
+
+  .list-modal {
+    width: 100%;
+    height: 100%;
+    padding: 5px 70px 0px 70px;
+
+    .countries-list__block {
+      .countries-list__item {
+        width: 100%;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      
+        .item-cases {
+          color: #d61616;
+          font-size: 1.1em;
+          margin-right: 5px;
+        }
+    
+        img {
+          width: 24px;
+          margin-right: 5px;
+        }
+    
+        .item-country {
+          color: white;
+        }
+      }
+    
+      .select {
+        background-color: rgb(200, 200, 200);
+      
+        &:hover, &:focus {
+          background-color: rgb(180, 180, 180);
+        }
+      }
+    }
+  }
 }

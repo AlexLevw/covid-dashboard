@@ -8,8 +8,18 @@
   justify-content: space-between;
 
   .country-statistics__header {
+    position: relative;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-bottom: solid rgba(40, 40, 40, 1) 4px;
+    background-color: rgb(40, 40, 40);
+  }
+
+  .country-statistics__top {
     height: 30px;
-    border-top: solid rgb(40, 40, 40) 4px;
     display: flex;
     justify-content: space-between;
     
@@ -30,20 +40,44 @@
     }
   }
 
-  .statistics__items {
-    height: 100%;
-    margin: 0 20px 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .statistic-date {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: white;
+    opacity: .7;
+    font-size: .9em;
+  }
 
-    .statistics__title {
-      color: white;
-      margin-right: 10px;
+  /*========== Modal ==========*/
+  .statistics-modal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 50px 0;
+
+    .statistics__items {
+      width: 100%;
+      height: 50px;
+      padding: 0 30px;
+      margin-top: 260px;
+      .statistics__title, .statistics__number {
+        font-size: 1.4em;
+      }
     }
 
-    .statistics__number {
-      color: #d61616;
+    .statistic-date {
+      width: 100%;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      opacity: .7;
+      font-size: 2em;
     }
   }
 }
