@@ -2,18 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss'
 
-
 import { MapContainer, Popup, Marker, TileLayer, useMap, GeoJSON } from "react-leaflet";
 import { createControlComponent } from '@react-leaflet/core';
 import L  from 'leaflet';
 import Basemap from './Basemaps';
 import ListCountry from './markers';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
+
 import dataJSON from './country.js'
 
 const lCountry = dataJSON.map(( item ) => {
-  // console.log(item);
-// ill, recover, died, pos, name, key
+
   return (
           <ListCountry
           name={item['country']}
@@ -35,10 +33,13 @@ const onBMChange = (bm) => {
   }
 
 const [basemap, onChange] = useState('total');
+
 const center = [39, 22];
 
 useEffect ( (e) => {
+
 console.log(basemap);
+
 }, [basemap])
 
 
@@ -46,8 +47,7 @@ console.log(basemap);
       <MapContainer zoom={2} center={center} maxZoom={18}>
         <TileLayer url={'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png' }/>
           <Basemap basemap={ basemap } onChange={ onBMChange }/>
-        <ListCountry/>
-        {lCountry}
+          { lCountry }
       </MapContainer>
     );
 
