@@ -22,22 +22,38 @@ async function request(url) {
   return result;
 }
 
-const stateAPI = "https://api.covid19api.com/"
+const stateAPI = "https://jsonware.com/json/f69d50fa8da64e065e84bbcb253f1f11.json";
+const populationAPI = "https://restcountries.eu/rest/v2/all?fields=alpha2Code;population";
 
-const summary =  request(`${stateAPI}summary`).then( ( data ) => {
-const countryAll = data.Countries;
-  for (var i = 0; i < dataJSONCopy.length; i++) {
-    let result = countryAll.find((item) => {
-      return item['CountryCode'] === dataJSONCopy[i]['alpha2']});
-        if(!(typeof result === 'undefined')){
-          dataJSONCopy[i]['Slug'] = result["Slug"]
-          dataJSONCopy[i]['TotalConfirmed'] = result["TotalConfirmed"]
-          dataJSONCopy[i]['TotalDeaths'] = result["TotalDeaths"]
-          dataJSONCopy[i]['NewRecovered'] = result["NewRecovered"]
+
+const summary =  request(`${stateAPI}`).then( ( data ) => {
+
+  const population = request(`${populationAPI}`).then( ( data ) => {
+    for (var i = 0; i < dataJSONCopy.length; i++) {
+      let result = data.find((item) => {
+        return item['alpha2Code'] === dataJSONCopy[i]['alpha2']});
+          if(!(typeof result === 'undefined')){
+            dataJSONCopy[i]['population'] = result['population']
+          }
         }
-      }
+      })
+  const countryAll = data.Countries;
+    for (var i = 0; i < dataJSONCopy.length; i++) {
+      let result = countryAll.find((item) => {
+        return item['CountryCode'] === dataJSONCopy[i]['alpha2']});
+          if(!(typeof result === 'undefined')){
+            dataJSONCopy[i]['Slug'] = result["Slug"]
+            dataJSONCopy[i]['TotalConfirmed'] = result["TotalConfirmed"]
+            dataJSONCopy[i]['TotalDeaths'] = result["TotalDeaths"]
+            dataJSONCopy[i]['TotalRecovered'] = result["TotalRecovered"]
+            dataJSONCopy[i]['NewConfirmed'] = result["NewConfirmed"]
+            dataJSONCopy[i]['NewDeaths'] = result["NewDeaths"]
+            dataJSONCopy[i]['NewRecovered'] = result["NewRecovered"]
+            dataJSONCopy[i]['population'] = result["population"]
+          }
+        }
       return dataJSONCopy;
-    });
+      });
 
 
 const ListCountry = (props) => {
@@ -58,19 +74,63 @@ const ListCountry = (props) => {
   let [recover, onChangeRecover] = useState(null);
   let [died, onChangeDied] = useState(null);
 
-  useEffect(() => {
+
+let kindValue = props.onChange();
+
+useEffect(() => {
+ if(kindValue === "total"){
    summary.then( ( data ) => {
-        let result = data.find((item) => {
-          return item['numeric'] === props.numeric;
-        });
-        onChangeRecover(result.NewRecovered);
-        onChangeIll(result.TotalConfirmed);
-        onChangeDied(result.TotalDeaths);
-      })
-  }, [ill, died, recover])
+     let result = data.find((item) => {
+       return item['numeric'] === props.numeric;
+     });
+     onChangeRecover(result.TotalRecovered);
+     onChangeIll(result.TotalConfirmed);
+     onChangeDied(result.TotalDeaths);
+   })
+ }
+ if(kindValue === "oneDay"){
+   summary.then( ( data ) => {
+     let result = data.find((item) => {
+       return item['numeric'] === props.numeric;
+     });
+     onChangeRecover(result.NewRecovered);
+     onChangeIll(result.NewConfirmed);
+     onChangeDied(result.NewDeaths);
+   })
+ }
+ if(kindValue === "total100"){
+   summary.then( ( data ) => {
+     let result = data.find((item) => {
+       return item['numeric'] === props.numeric;
+     });
+     const recovered = Math.ceil(result.TotalRecovered * 100000 / result.population);
+     const confirmed = Math.ceil(result.TotalConfirmed * 100000 / result.population);
+     const deaths = Math.ceil(result.TotalDeaths * 100000 / result.population);
+     onChangeRecover(recovered);
+     onChangeIll(confirmed);
+     onChangeDied(deaths);
+   })
+ }
+
+ if(kindValue === "oneDay100"){
+   summary.then( ( data ) => {
+     let result = data.find((item) => {
+       return item['numeric'] === props.numeric;
+     });
+     const recovered = Math.ceil(result.NewRecovered * 100000 / result.population);
+     const confirmed = Math.ceil(result.NewConfirmed * 100000 / result.population);
+     const deaths = Math.ceil(result.NewDeaths * 100000 / result.population);
+     onChangeRecover(recovered);
+     onChangeIll(confirmed);
+     onChangeDied(deaths);
+   })
+ }
+}, [kindValue])
+
+const  [kind, onChangeKind] = useState('total');
 
     return (
-      <Marker position = { pos }  icon={myIcon} key= { props.numeric } >
+      <Marker position = { pos }  icon={myIcon} key= { props.numeric } kind={ kind }>
         <Popup onChange={ onChangeIll } >
           {props.name} <br />
           Cases: { ill } <br />
