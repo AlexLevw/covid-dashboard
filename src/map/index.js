@@ -6,9 +6,10 @@ import { MapContainer, Popup, Marker, TileLayer, useMap, GeoJSON } from "react-l
 import { createControlComponent } from '@react-leaflet/core';
 import L  from 'leaflet';
 import Basemap from './Basemaps';
+import Legend from './legend.js';
 import ListCountry from './markers';
 
-import dataJSON from './country.js'
+import dataJSON from './country.js';
 
 const MyMap = ( ) => {
 
@@ -46,9 +47,10 @@ const lCountry = dataJSON.map(( item ) => {
   );
 })
     return (
-      <MapContainer zoom={2} center={center} maxZoom={18} basemap={ basemap }>
+      <MapContainer zoom={2} center={center} maxZoom={10} basemap={ basemap }>
           <TileLayer url={'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png' }/>
           <Basemap  onChange={ onBMChange }/>
+          <Legend />
           { lCountry }
       </MapContainer>
     );

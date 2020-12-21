@@ -20,3 +20,53 @@
   width: 200px;
   height: 25px;
 }
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+  color: white;
+  background-color: #282828;
+  font-size: 14px;
+}
+
+.legend-container{
+  width: 200px;
+  height: 200px;
+  padding: 15px;
+  color: white;
+  position: absolute;
+  font-size: 15px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  height: auto;
+  width: auto;
+  border-radius: 4px;
+  background-color: #282828;
+
+  p{
+    margin: 0 0 5px 0;
+  }
+}
+
+.scale-container{
+   background: linear-gradient(to bottom, hsl(0, 0%, 100%), hsl(0, 100%, 50%));
+   width: 50px;
+   height: 100px;
+}
+
+.legend-information-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.max-min-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 5px;
+
+
+  div{
+      padding: 0;
+      margin: 0;
+  }
+}

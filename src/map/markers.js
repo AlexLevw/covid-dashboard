@@ -64,7 +64,7 @@ const ListCountry = (props) => {
     !isNaN(lat) ? pos.push(lat) : pos.push(0);
     !isNaN(lon) ? pos.push(lon) : pos.push(0);
 
-    const myIcon = L.icon({
+const myIcon = L.icon({
       iconUrl: icon,
       iconSize: [10, 10],
       popupAnchor: [-10, -10],
@@ -130,7 +130,7 @@ useEffect(() => {
 const  [kind, onChangeKind] = useState('total');
 
     return (
-      <Marker position = { pos }  icon={myIcon} key= { props.numeric } kind={ kind }>
+      <Marker position = { pos }  icon={ myIcon } key= { props.numeric } kind={ kind }>
         <Popup onChange={ onChangeIll } >
           {props.name} <br />
           Cases: { ill } <br />
