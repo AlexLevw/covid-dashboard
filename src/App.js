@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CountriesList from './components/CountriesList/CountriesList';
 import GlobalStatistics from './components/GlobalStatistics/GlobalStatistics';
 import CountryStatistics from './components/CountryStatistics/CountryStatistics';
+import Loader from './components/Loader/Loader';
 import Requests from './modules/data/data';
 import './App.scss';
 
@@ -26,22 +27,21 @@ export default function App() {
     Countries: []
   });
   const [population, setPopulation] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    request.getSummary()
-    .then(data => {
-      setStatisticsData(data);
-    }) 
-    .catch(err => {
-      console.log(err);
-    });
+    setStatisticsData(request.getSummary());
+
     request.getPopulation()
     .then(data => {
       setPopulation(data);
+
     }) 
     .catch(err => {
       console.log(err);
     });
+
+    setLoading(false);
   }, []);
 
   const changeIndicator = (num) => {
@@ -61,7 +61,8 @@ export default function App() {
     setIndicator(indicators[indicatorCounter]);
   }
 
-  return (
+  return loading ? <Loader /> :
+  (
     <div className="App">
       <div className="right-section">
         <div className="right-section__top">

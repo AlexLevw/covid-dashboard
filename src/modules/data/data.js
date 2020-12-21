@@ -1,3 +1,5 @@
+import summeryData from './summary.json';
+
 export default class Requests {
   requestOptions = {
     method: "GET",
@@ -12,32 +14,18 @@ export default class Requests {
         `Could not fetch Data Voice ${url}, received ${response.status}`,
       );
     }
-    const result = await response.json();
-
-    return result;
+    return await response.json();
   }
 
-  async getCountryTotal() {
-    const result = await this.request(
-      `https://api.covid19api.com/total/country/south-africa/status/confirmed`,
-    );
-
-    return result;
-  }
-
-  async getSummary() {
-    const result = await this.request(
-      `https://api.covid19api.com/summary`,
-    );
-
+  getSummary() {
+    let result = null;
+    this.request(`https://api.covid19api.com/summary`)
+    .then((data) => result = data)
+    .catch(result = summeryData);
     return result;
   }
 
   async getPopulation() {
-    const result = await this.request(
-      `https://restcountries.eu/rest/v2/all?fields=name;population`,
-    );
-
-    return result;
+    return await this.request(`https://restcountries.eu/rest/v2/all?fields=name;population`);
   }
 }

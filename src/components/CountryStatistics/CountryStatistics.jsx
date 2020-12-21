@@ -52,13 +52,13 @@ export default function CountryStatistics(
         } else {
           const countryPopulation = population.find((elem) => elem.name.includes(country.Country)).population;
           setConfirmed(
-            ((country.NewConfirmed / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.NewConfirmed / countryPopulation) * 100000)
           );
           setDeaths(
-            ((country.NewDeaths / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.NewDeaths / countryPopulation) * 100000)
           );
           setRecovered(
-            ((country.NewRecovered / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.NewRecovered / countryPopulation) * 100000)
           );
         }
       }
