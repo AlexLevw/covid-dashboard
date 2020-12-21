@@ -32,7 +32,7 @@ const cangeKind = function () {
   }
 
 const lCountry = dataJSON.map(( item ) => {
-
+console.log(item);
   return (
     <ListCountry
     name={item['country']}
@@ -43,6 +43,7 @@ const lCountry = dataJSON.map(( item ) => {
     recover={item['TotalDeaths']}
     died={item['NewRecovered']}
     onChange={ cangeKind }
+    alpha2={item['alpha2']}
     />
   );
 })

@@ -128,11 +128,20 @@ useEffect(() => {
 }, [kindValue])
 
 const  [kind, onChangeKind] = useState('total');
-
+const srcForFlag = `https://www.countryflags.io/${ props.alpha2 }/flat/16.png`;
+const onMouseEnter = (e) => {
+console.log(e);
+}
+function handleBoxToggle() {
+  console.log("hell");
+}
     return (
-      <Marker position = { pos }  icon={ myIcon } key= { props.numeric } kind={ kind }>
+      <Marker position = { pos }  icon={ myIcon } key= { props.numeric } kind={ kind }  onClick={ handleBoxToggle } >
         <Popup onChange={ onChangeIll } >
-          {props.name} <br />
+          <div className="flag-for-popUp">
+            <img src={ srcForFlag } alt="flag"/>  {props.name}
+          </div>
+         <br />
           Cases: { ill } <br />
           Deaths: { recover } <br />
           Recovered: { died }
