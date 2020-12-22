@@ -18,7 +18,6 @@ async function request(url) {
       `Could not fetch Data Voice ${url}, received ${response.status}`,
     );
   }
-
   const result = await response.json();
   return result;
 }
@@ -28,20 +27,23 @@ const stateAPI = "https://jsonware.com/json/f69d50fa8da64e065e84bbcb253f1f11.jso
 const populationAPI = "https://restcountries.eu/rest/v2/all?fields=alpha2Code;population";
 
 const population = request(`${populationAPI}`).then( ( data ) => {
-  for (var i = 0; i < dataJSONCopy.length; i++) {
-    const result = data.find((item) => {
-      return item['alpha2Code'] === dataJSONCopy[i]['alpha2']});
 
-      if(!(typeof result === 'undefined')){
-        dataJSONCopy[i]['population'] = result['population']
-      }
-    }
-    return dataJSONCopy;
+  // for (var i = 0; i < dataJSONCopy.length; i++) {
+  //
+  //   const result = data.find((item) => {
+  //     return item['alpha2Code'] === dataJSONCopy[i]['alpha2']});
+  //
+  //     if(!(typeof result === 'undefined')){
+  //       dataJSONCopy[i]['population'] = result['population'];
+  //     }
+  //     console.log(result['population']);
+  //   }
+    return data;
   });
 
 const summary =  request(`${stateAPI}`).then( ( data ) => {
 
-    const countryAll = data.Countries;
+  const countryAll = data.Countries;
 
   for (var i = 0; i < dataJSONCopy.length; i++) {
 
@@ -129,7 +131,7 @@ let kindValue = props.onChange();
 useEffect(() => {
 
    allData.then( ( data ) => {
-     console.log(data);
+
      let result = data.find((item) => {
        return item['numeric'] === props.numeric;
      });
@@ -151,7 +153,18 @@ useEffect(() => {
 
 
        if(kindValue === "total100"){
+         population.then(( population ) => {
+          const pop = population.find((item) => {
+              return item['alpha2Code'] === result.alpha2
+              });
+        // const retFun = (!(typeof pop['population'] === 'undefined')) ? pop['population'] : 0;
+          console.log(population);
+          //
+          //     if(!(typeof result === 'undefined')){
+          //       dataJSONCopy[i]['population'] = result['population'];
+          //     }
 
+        })
          let recoveredTotal100 = (!(typeof result.TotalRecovered === 'undefined'))
          && (!(typeof result.population === 'undefined'))
          ? Math.round(result.TotalRecovered * 100000 / result.population) : 0;
@@ -184,6 +197,8 @@ useEffect(() => {
         onChangeDied(deaths);
       }
     })
+
+
 }, [kindValue])
 
 const  [kind, onChangeKind] = useState('total');
