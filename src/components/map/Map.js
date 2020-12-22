@@ -7,7 +7,7 @@ import Basemap from './Basemaps';
 import Legend from './Legend.js';
 import ListCountry from './Markers';
 
-import dataJSON from '../modules/data/country.js'
+import dataJSON from '../../modules/data/country.js'
 
 const MyMap = ( ) => {
 

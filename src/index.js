@@ -5,7 +5,7 @@ import './index.scss';
 import App from './App';
 
 import './index.scss';
-import MyMap from './map/index';
+import MyMap from './components/map/index';
 
 
 ReactDOM.render(

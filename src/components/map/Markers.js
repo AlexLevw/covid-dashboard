@@ -6,7 +6,7 @@ import L  from 'leaflet';
 
 import icon from './circle.svg';
 
-import dataJSON from '../modules/data/country.js'
+import dataJSON from '../../modules/data/country.js'
 
 let dataJSONCopy = dataJSON;
 
@@ -23,7 +23,7 @@ async function request(url) {
   return result;
 }
 
-const stateAPI = "https://api.covid19api.com/summary";
+const stateAPI = "https://jsonware.com/json/f69d50fa8da64e065e84bbcb253f1f11.json";
 
 const populationAPI = "https://restcountries.eu/rest/v2/all?fields=alpha2Code;population";
 
@@ -129,7 +129,7 @@ let kindValue = props.onChange();
 useEffect(() => {
 
    allData.then( ( data ) => {
-
+     console.log(data);
      let result = data.find((item) => {
        return item['numeric'] === props.numeric;
      });
@@ -151,9 +151,19 @@ useEffect(() => {
 
 
        if(kindValue === "total100"){
-         const recoveredTotal100 = Math.round(result.TotalRecovered * 100000 / result.population);
-         const confirmedTotal100 = Math.round(result.TotalConfirmed * 100000 / result.population);
-         const deathsTotal100 = Math.round(result.TotalDeaths * 100000 / result.population);
+
+         let recoveredTotal100 = (!(typeof result.TotalRecovered === 'undefined'))
+         && (!(typeof result.population === 'undefined'))
+         ? Math.round(result.TotalRecovered * 100000 / result.population) : 0;
+
+         let confirmedTotal100 = (!(typeof result.TotalConfirmed === 'undefined'))
+         && (!(typeof result.population === 'undefined'))
+         ? Math.round(result.TotalConfirmed * 100000 / result.population) : 0;
+
+         const deathsTotal100 = (!(typeof result.TotalConfirmed === 'undefined'))
+         && (!(typeof result.population === 'undefined'))
+         ? Math.round(result.TotalDeaths * 100000 / result.population) : 0;
+
          const confirmedTotal100Icon = !isNaN(confirmedTotal100) ? confirmedTotal100 * 100 / 100000 : 0;
          const newIconTotal = changeIcon(confirmedTotal100Icon);
          onChangeIcon(newIconTotal);

@@ -76,5 +76,11 @@
 .leaflet-div-icon{
   border-radius: 50%;
   border: none;
-  background: red;
+  background: #d61616;
+}
+
+.leaflet-tooltip{
+    background-color: #282828;
+    border: none;
+    color:  white;
 }
