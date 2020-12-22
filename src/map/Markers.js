@@ -50,7 +50,6 @@ const summary =  request(`${stateAPI}`).then( ( data ) => {
 
       if(!(typeof result === 'undefined')){
 
-
         dataJSONCopy[i]['Slug'] = result["Slug"]
         dataJSONCopy[i]['TotalConfirmed'] = result["TotalConfirmed"]
         dataJSONCopy[i]['TotalDeaths'] = result["TotalDeaths"]
@@ -149,37 +148,32 @@ useEffect(() => {
         onChangeIll(result.NewConfirmed);
         onChangeDied(result.NewDeaths);
       }
+
+
+       if(kindValue === "total100"){
+         const recoveredTotal100 = Math.round(result.TotalRecovered * 100000 / result.population);
+         const confirmedTotal100 = Math.round(result.TotalConfirmed * 100000 / result.population);
+         const deathsTotal100 = Math.round(result.TotalDeaths * 100000 / result.population);
+         const confirmedTotal100Icon = !isNaN(confirmedTotal100) ? confirmedTotal100 * 100 / 100000 : 0;
+         const newIconTotal = changeIcon(confirmedTotal100Icon);
+         onChangeIcon(newIconTotal);
+         onChangeRecover(recoveredTotal100);
+         onChangeIll(confirmedTotal100);
+         onChangeDied(deathsTotal100);
+       }
+       const recovered = Math.round(result.NewRecovered * 100000 / result.population);
+       const confirmed = Math.round(result.NewConfirmed * 100000 / result.population);
+       const deaths = Math.round(result.NewDeaths * 100000 / result.population);
+
+      if(kindValue === "oneDay100"){
+        const confirmedNew100Icon = !isNaN(confirmed) ? confirmed / 10: 0;
+        const newIconNew = changeIcon(confirmedNew100Icon);
+        onChangeIcon(newIconNew);
+        onChangeRecover(recovered);
+        onChangeIll(confirmed);
+        onChangeDied(deaths);
+      }
     })
-
-
- if(kindValue === "total100"){
-   allData.then( ( data ) => {
-     let result = data.find((item) => {
-       return item['numeric'] === props.numeric;
-     });
-     const recovered = Math.round(result.TotalRecovered * 100000 / result.population);
-     const confirmed = Math.round(result.TotalConfirmed * 100000 / result.population);
-     const deaths = Math.round(result.TotalDeaths * 100000 / result.population);
-
-     onChangeRecover(recovered);
-     onChangeIll(confirmed);
-     onChangeDied(deaths);
-   })
- }
-
- if(kindValue === "oneDay100"){
-   allData.then( ( data ) => {
-     let result = data.find((item) => {
-       return item['numeric'] === props.numeric;
-     });
-     const recovered = Math.round(result.NewRecovered * 100000 / result.population);
-     const confirmed = Math.round(result.NewConfirmed * 100000 / result.population);
-     const deaths = Math.round(result.NewDeaths * 100000 / result.population);
-     onChangeRecover(recovered);
-     onChangeIll(confirmed);
-     onChangeDied(deaths);
-   })
- }
 }, [kindValue])
 
 const  [kind, onChangeKind] = useState('total');
