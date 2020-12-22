@@ -36,8 +36,8 @@ const population = request(`${populationAPI}`).then( ( data ) => {
   //     if(!(typeof result === 'undefined')){
   //       dataJSONCopy[i]['population'] = result['population'];
   //     }
-  //     console.log(result['population']);
   //   }
+    console.log(data);
     return data;
   });
 
@@ -157,45 +157,62 @@ useEffect(() => {
           const pop = population.find((item) => {
               return item['alpha2Code'] === result.alpha2
               });
-        // const retFun = (!(typeof pop['population'] === 'undefined')) ? pop['population'] : 0;
-          console.log(population);
-          //
-          //     if(!(typeof result === 'undefined')){
-          //       dataJSONCopy[i]['population'] = result['population'];
-          //     }
+          let countyPopulation = (!(typeof pop === 'undefined')) ? pop['population'] : 0;
+          // Выздоровевшие на 100 тыс.
+          const recoveredTotal100 = (!(typeof result.TotalRecovered === 'undefined'))
+          && (!(typeof countyPopulation === 0 ))
+          ? Math.round(result.TotalRecovered / 100000 * countyPopulation) : 0;
+             onChangeRecover(recoveredTotal100);
 
-        })
-         let recoveredTotal100 = (!(typeof result.TotalRecovered === 'undefined'))
-         && (!(typeof result.population === 'undefined'))
-         ? Math.round(result.TotalRecovered * 100000 / result.population) : 0;
+          // Подтвержденные случаи на 100 тыс.
+         const confirmedTotal100 = (!(typeof result.TotalConfirmed === 'undefined'))
+         && (!(typeof countyPopulation === 0 ))
+         ? Math.round(result.TotalConfirmed / 100000 * countyPopulation) : 0;
+         onChangeIll(confirmedTotal100);
 
-         let confirmedTotal100 = (!(typeof result.TotalConfirmed === 'undefined'))
-         && (!(typeof result.population === 'undefined'))
-         ? Math.round(result.TotalConfirmed * 100000 / result.population) : 0;
-
-         const deathsTotal100 = (!(typeof result.TotalConfirmed === 'undefined'))
-         && (!(typeof result.population === 'undefined'))
-         ? Math.round(result.TotalDeaths * 100000 / result.population) : 0;
-
-         const confirmedTotal100Icon = !isNaN(confirmedTotal100) ? confirmedTotal100 * 100 / 100000 : 0;
+         // Умершие на 100 тыс.
+         const deathsTotal100 = (!(typeof result.TotalDeaths === 'undefined'))
+         && (!(typeof countyPopulation === 0 ))
+         ? Math.round(result.TotalDeaths / 100000 * countyPopulation) : 0;
+         onChangeDied(deathsTotal100);
+         // Увеличение точки
+         const confirmedTotal100Icon = !isNaN(result.iconChangeTotal) ? ( result.TotalConfirmed * 50 / confirmedTotal100 * result.iconChangeTotal /  result.TotalConfirmed )  : 0;
          const newIconTotal = changeIcon(confirmedTotal100Icon);
          onChangeIcon(newIconTotal);
-         onChangeRecover(recoveredTotal100);
-         onChangeIll(confirmedTotal100);
-         onChangeDied(deathsTotal100);
-       }
-       const recovered = Math.round(result.NewRecovered * 100000 / result.population);
-       const confirmed = Math.round(result.NewConfirmed * 100000 / result.population);
-       const deaths = Math.round(result.NewDeaths * 100000 / result.population);
+          })
+         }
+       if(kindValue === "oneDay100"){
+         population.then(( population ) => {
+          const pop = population.find((item) => {
+              return item['alpha2Code'] === result.alpha2
+              });
+          let countyPopulation = (!(typeof pop === 'undefined')) ? pop['population'] : 0;
+         // За один день
+         //Востановились
+         const recovered = (!(typeof result.NewRecovered === 'undefined'))
+         && (!(typeof countyPopulation === 0 ))
+         ? Math.round(result.NewRecovered / 100000 * countyPopulation) : 0;
+         onChangeRecover(recovered);
 
-      if(kindValue === "oneDay100"){
-        const confirmedNew100Icon = !isNaN(confirmed) ? confirmed / 10: 0;
-        const newIconNew = changeIcon(confirmedNew100Icon);
-        onChangeIcon(newIconNew);
-        onChangeRecover(recovered);
-        onChangeIll(confirmed);
-        onChangeDied(deaths);
-      }
+         // Новые случаи
+         const confirmed = (!(typeof result.NewConfirmed === 'undefined'))
+         && (!(typeof countyPopulation === 0 ))
+         ? Math.round(result.NewConfirmed / 100000 * countyPopulation) : 0;
+         onChangeIll(confirmed);
+
+         //Смерти
+         const deaths = (!(typeof result.NewDeaths === 'undefined'))
+         && (!(typeof countyPopulation === 0 ))
+         ? Math.round(result.NewDeaths / 100000 * countyPopulation): 0;
+         onChangeDied(deaths);
+
+         const confirmedNew100Icon = !isNaN(result.iconChangeNew) ?
+         ( result.NewConfirmed * 50 / confirmed * result.iconChangeNew /  result.NewConfirmed ) : 0;
+
+         const newIconNew = changeIcon(confirmedNew100Icon);
+         onChangeIcon(newIconNew);
+        })
+     }
     })
 
 
@@ -212,8 +229,8 @@ const  [kind, onChangeKind] = useState('total');
           </div>
          <br />
           Cases: { ill } <br />
-          Deaths: { recover } <br />
-          Recovered: { died }
+          Recovered: { recover } <br />
+          Deaths: { died }
         </Tooltip>
       </Marker>
     )
