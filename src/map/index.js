@@ -32,7 +32,6 @@ const cangeKind = function () {
   }
 
 const lCountry = dataJSON.map(( item ) => {
-console.log(item);
   return (
     <ListCountry
     name={item['country']}
