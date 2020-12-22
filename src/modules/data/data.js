@@ -19,16 +19,16 @@ export default class byCountryTotal {
     return result;
   }
 
-  async getCountryTotal() {
-    const result = await this.request(
-      `https://api.covid19api.com/total/country/south-africa/status/confirmed`,
-    );
+  // async getCountryTotal() {
+  //   const result = await this.request(
+  //     `https://api.covid19api.com/total/country/south-africa/status/confirmed`,
+  //   );
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  async getAllData() {
-    const result = await this.request(`https://api.covid19api.com/all`);
+  async getSummary() {
+    const result = await this.request(`https://api.covid19api.com/summary`);
 
     return result;
   }
