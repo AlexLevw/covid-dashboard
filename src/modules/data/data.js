@@ -26,6 +26,6 @@ export default class Requests {
   }
 
   async getPopulation() {
-    return await this.request(`https://restcountries.eu/rest/v2/all?fields=name;population`);
+    return await this.request(`https://restcountries.eu/rest/v2/all?fields=alpha2Code;population`);
   }
 }

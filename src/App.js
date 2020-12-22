@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CountriesList from './components/CountriesList/CountriesList';
 import GlobalStatistics from './components/GlobalStatistics/GlobalStatistics';
 import CountryStatistics from './components/CountryStatistics/CountryStatistics';
+import Footer from './components/Footer/Footer';
 import Loader from './components/Loader/Loader';
 import Requests from './modules/data/data';
 import './App.scss';
@@ -64,9 +65,14 @@ export default function App() {
   return loading ? <Loader /> :
   (
     <div className="App">
+      <div className="main">
+      <div className="left-section"></div>
       <div className="right-section">
         <div className="right-section__top">
-          <GlobalStatistics GlobalData={ statisticsData.Global } />
+          <GlobalStatistics
+            GlobalData={ statisticsData.Global }
+            setCurrentCountry={ setCurrentCountry }
+          />
           <CountriesList
             statisticsData={ statisticsData }
             indicator={ indicator }
@@ -83,7 +89,12 @@ export default function App() {
             population={ population }
           />
         </div>
+        <div className="right-section__bottom">
+          
+        </div>
       </div>
+      </div>
+      <Footer />
     </div>
   );
 }

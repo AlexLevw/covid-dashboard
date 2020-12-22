@@ -13,29 +13,37 @@ export default function CountryStatistics(
   const [isAllTime, setIsAllTime] = useState(true);
   const [isAllPopulation, setIsAllPopulation] = useState(true);
   const [lastDate, setLastDate] = useState([]);
+
+  function setStatistic(confirmed, deaths, recovered) {
+    setConfirmed(confirmed);
+    setDeaths(deaths);
+    setRecovered(recovered);
+  }
   
   useEffect(() => {
     if(currentCountryCode === 'Global') {
-      setConfirmed(statisticsData.Global.TotalConfirmed);
-      setDeaths(statisticsData.Global.TotalDeaths);
-      setRecovered(statisticsData.Global.TotalRecovered);
+      setStatistic(
+        statisticsData.Global.TotalConfirmed,
+        statisticsData.Global.TotalDeaths,
+        statisticsData.Global.TotalRecovered
+      );
     } else {
-      const country = statisticsData.Countries.find((elem) => elem.CountryCode === currentCountryCode)
+      const country = statisticsData.Countries.find((elem) => elem.CountryCode === currentCountryCode);
+      const countryPopulation = population.find((elem) => elem.alpha2Code === currentCountryCode).population;
+      const numberPeople = 100000;
+      
       if(isAllTime) {
         if(isAllPopulation) {
-          setConfirmed(country.TotalConfirmed);
-          setDeaths(country.TotalDeaths);
-          setRecovered(country.TotalRecovered);
+          setStatistic(country.TotalConfirmed, country.TotalDeaths, country.TotalRecovered);
         } else {
-          const countryPopulation = population.find((elem) => elem.name.includes(country.Country)).population;
           setConfirmed(
-            ((country.TotalConfirmed / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.TotalConfirmed / countryPopulation) * numberPeople)
           );
           setDeaths(
-            ((country.TotalDeaths / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.TotalDeaths / countryPopulation) * numberPeople)
           );
           setRecovered(
-            ((country.TotalRecovered / countryPopulation) * 100000).toFixed(4)
+            Math.round((country.TotalRecovered / countryPopulation) * numberPeople)
           );
         }
       } else {
@@ -45,20 +53,20 @@ export default function CountryStatistics(
         ${countryDate.getMonth()} /
         ${countryDate.getFullYear()}
         `);
+        
         if(isAllPopulation) {
           setConfirmed(country.NewConfirmed);
           setDeaths(country.NewDeaths);
           setRecovered(country.NewRecovered);
         } else {
-          const countryPopulation = population.find((elem) => elem.name.includes(country.Country)).population;
           setConfirmed(
-            Math.round((country.NewConfirmed / countryPopulation) * 100000)
+            Math.round((country.NewConfirmed / countryPopulation) * numberPeople)
           );
           setDeaths(
-            Math.round((country.NewDeaths / countryPopulation) * 100000)
+            Math.round((country.NewDeaths / countryPopulation) * numberPeople)
           );
           setRecovered(
-            Math.round((country.NewRecovered / countryPopulation) * 100000)
+            Math.round((country.NewRecovered / countryPopulation) * numberPeople)
           );
         }
       }

@@ -19,23 +19,8 @@ export default function CountriesList(props) {
     document.querySelector('.search-bar').value = filter;
   }
 
-  return (
-    <div className="countries-list">
-      <div className="countries-list__header">
-        <span>Countries list</span>
-          {/* Modal window */}
-          <Modal filteringCountries={ filteringCountries } modalObj={ <div className="list-modal">
-            <CountriesSearch filteringCountries={ filteringCountries } />
-            <ListItems
-              indicator={ props.indicator }
-              countries={ filteredCountries }
-              currentCountry={ props.currentCountry }
-              setCurrentCountry={ props.setCurrentCountry }
-            />
-            <CategorySwitcher indicator={ props.indicator } changeIndicator={ props.changeIndicator }/>
-          </div>
-          }/>
-      </div>
+  const mainListBlock = (
+    <div className="countries-list__main">
       <CountriesSearch filteringCountries={ filteringCountries } />
       <ListItems
         indicator={ props.indicator }
@@ -44,6 +29,21 @@ export default function CountriesList(props) {
         setCurrentCountry={ props.setCurrentCountry }
       />
       <CategorySwitcher indicator={ props.indicator } changeIndicator={ props.changeIndicator }/>
+    </div>
+  );
+
+  return (
+    <div className="countries-list">
+      <div className="countries-list__header">
+        <span>Countries list</span>
+          {/* Modal window */}
+          <Modal filteringCountries={ filteringCountries } modalObj={
+          <div className="list-modal">
+            {mainListBlock}
+          </div>
+          }/>
+      </div>
+      { mainListBlock }
     </div>
   );
 }
