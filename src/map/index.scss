@@ -17,15 +17,11 @@
 }
 
 .basemaps-container select {
-  width: 200px;
+  width: 230px;
   height: 25px;
 }
 
-.leaflet-popup-content-wrapper, .leaflet-popup-tip{
-  color: white;
-  background-color: #282828;
-  font-size: 14px;
-}
+
 
 .legend-container{
   width: 200px;
@@ -81,4 +77,6 @@
 
 .leaflet-div-icon{
   border-radius: 50%;
+  border: none;
+  background: red;
 }

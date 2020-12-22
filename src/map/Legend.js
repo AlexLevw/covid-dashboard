@@ -5,7 +5,7 @@ class Legend extends React.Component {
 
   render() {
     return (
-        <div className="legend-container"> 
+        <div className="legend-container">
           <p>Legend</p>
           <div className="legend-information-container" >
             <div className="scale-container"></div>

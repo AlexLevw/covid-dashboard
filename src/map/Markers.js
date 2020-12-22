@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useState } from 'react';
 import './index.scss'
+
 import { Tooltip, Marker } from "react-leaflet";
 import L  from 'leaflet';
 
 import icon from './circle.svg';
-import dataJSON from './country.js'
+
+import dataJSON from '../modules/data/country.js'
 
 let dataJSONCopy = dataJSON;
 
@@ -22,7 +23,8 @@ async function request(url) {
   return result;
 }
 
-const stateAPI = "https://jsonware.com/json/f69d50fa8da64e065e84bbcb253f1f11.json";
+const stateAPI = "https://api.covid19api.com/summary";
+
 const populationAPI = "https://restcountries.eu/rest/v2/all?fields=alpha2Code;population";
 
 const population = request(`${populationAPI}`).then( ( data ) => {
@@ -79,7 +81,7 @@ const allData = summary.then(( data ) => {
 
   for (var i = 0; i < data.length; i++) {
     let iconChangeTotal = Math.ceil(data[i]['TotalRecovered'] * 50 / maxTotalresult)
-    let iconChangeNew = Math.ceil(data[i]['TotalRecovered'] * 50 / maxNewresult)
+    let iconChangeNew = Math.ceil(data[i]['NewRecovered'] * 50 / maxNewresult)
     data[i]['iconChangeTotal'] = iconChangeTotal
     data[i]['iconChangeNew'] = iconChangeNew
   }
@@ -112,7 +114,7 @@ const ListCountry = (props) => {
 
 function changeIcon(size) {
 
-let newSize  = isNaN(size) ? 10 : size + 10
+let newSize  = isNaN(size) ? 0 : size + 10
 
 return myIcon = L.divIcon({
         shadowUrl: icon,
@@ -126,8 +128,6 @@ return myIcon = L.divIcon({
 let kindValue = props.onChange();
 
 useEffect(() => {
-
-
 
    allData.then( ( data ) => {
 
