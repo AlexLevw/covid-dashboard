@@ -1,0 +1,36 @@
+.countries-search {
+  height: 30px;
+  display: flex;
+  border-bottom: solid rgba(40, 40, 40, 1) 4px;
+
+  .search-bar {
+    width: 80%;
+    height: 100%;
+    display: block;
+    border: 0;
+    padding-left: 4px;
+  }
+  .clear-btn {
+    cursor: pointer;
+    width: 20%;
+    background-color: rgba(170, 40, 40, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
+
+    &:hover {
+      background-color: rgba(150, 40, 40, .5);
+    }
+
+    &:active {
+      background-color: rgba(170, 40, 40, 1);
+    }
+
+    span {
+      font-size: 14px;
+      color: white;
+      user-select: none;
+    }
+  }
+}

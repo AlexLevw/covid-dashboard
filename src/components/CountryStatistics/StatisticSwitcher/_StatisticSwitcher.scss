@@ -1,0 +1,28 @@
+.statistic-switcher {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+
+  .switcher-title {
+    color: white;
+  }
+
+  .switcher-array {
+    width: 18px;
+    height: 18px;
+    font-weight: 800;
+    transition: .2s;
+
+    &:last-child {
+      transform: rotate(180deg);
+    }
+
+    &:hover, &:focus {
+      opacity: .7;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+}

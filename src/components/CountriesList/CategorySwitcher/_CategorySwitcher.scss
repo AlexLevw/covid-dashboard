@@ -1,0 +1,34 @@
+.category-switcher {
+  height: 26px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 10px 4px 10px;
+  color: white;
+  border-top: solid rgba(40, 40, 40, 1) 4px;
+  background-color: rgb(40, 40, 40);
+  
+  .switcher-array {
+    width: 18px;
+    height: 18px;
+    font-weight: 800;
+    transition: .2s;
+
+    &:last-child {
+      transform: rotate(180deg);
+    }
+
+    &:hover, &:focus {
+      opacity: .7;
+    }
+
+    &:active {
+      opacity: 1;
+    }
+  }
+
+  .switcher-title {
+
+  }
+}
