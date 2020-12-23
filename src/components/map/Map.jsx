@@ -6,7 +6,7 @@ import Markers from './Markers';
 import Modal from '../Modal/Modal';
 import './_Map.scss'
 
-export default function MyMap({ statisticsData, population,
+export default function Map({ statisticsData, population,
   selectedCategory, selectCategory})
 {
 
