@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Chart, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import Modal from '../Modal/Modal';
 import './Chart.scss';
 
@@ -8,7 +8,6 @@ export default function Graph({ statisticsData }) {
   const[chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    console.log(Chart.default);
     const labels =[]
     const data = []
     statisticsData.Countries.forEach(el => {
