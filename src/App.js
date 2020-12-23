@@ -4,6 +4,7 @@ import GlobalStatistics from './components/GlobalStatistics/GlobalStatistics';
 import CountryStatistics from './components/CountryStatistics/CountryStatistics';
 import Footer from './components/Footer/Footer';
 import Loader from './components/Loader/Loader';
+import Map from './components/Map/Map';
 import Requests from './modules/data/data';
 import './App.scss';
 
@@ -19,16 +20,17 @@ const request = new Requests();
 
 export default function App() {
   const [indicator, setIndicator] = useState(indicators[0]);
+  const [population, setPopulation] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentCountry, setCurrentCountry] = useState({
-     name: 'Global',
-      code: 'Global' 
-    });
+    name: 'Global',
+    code: 'Global' 
+  });
   const [statisticsData, setStatisticsData] = useState({
     Global: {},
     Countries: []
   });
-  const [population, setPopulation] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedCategory, selectCategory] = useState('total');
 
   useEffect(() => {
     setStatisticsData(request.getSummary());
@@ -66,7 +68,14 @@ export default function App() {
   (
     <div className="App">
       <div className="main">
-      <div className="left-section"></div>
+      <div className="left-section">
+        <Map 
+          statisticsData={statisticsData }
+          population={ population }
+          selectedCategory={ selectedCategory }
+          selectCategory={ selectCategory }
+        />
+      </div>
       <div className="right-section">
         <div className="right-section__top">
           <GlobalStatistics
@@ -87,6 +96,8 @@ export default function App() {
             currentCountryName={ currentCountry.name }
             currentCountryCode={ currentCountry.code }
             population={ population }
+            selectedCategory={ selectedCategory }
+            selectCategory={ selectCategory }
           />
         </div>
         <div className="right-section__bottom">

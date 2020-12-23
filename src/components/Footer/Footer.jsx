@@ -19,7 +19,7 @@ export default function Footer() {
         </a>
         <a className="author-name" href="https://github.com/GrafDrakula-BlaBlaBla">
           <img className="github-logo" src={ githubLogo } alt="github"/>
-          GrafDrakula-BlaBlaBla
+          GrafDrakula
         </a>
         <a className="author-name" href="https://github.com/koverchik">
           <img className="github-logo" src={ githubLogo } alt="github"/>

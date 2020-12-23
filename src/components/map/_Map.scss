@@ -1,0 +1,109 @@
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.base-maps-container{
+  border: solid rgb(20, 20, 20) 2px;
+
+  select {
+    width: 230px;
+    height: 25px;
+    color: white;
+    position: absolute;
+    font-size: 15px;
+    top: 10px;
+    right: 45px;
+    z-index: 1000;
+    height: auto;
+    width: auto;
+    border-radius: 4px;
+    background-color: #282828;
+    font-family: 'JetBrains Mono', monospace;
+    border: solid rgb(30, 30, 30) 2px;
+  }
+}
+
+.legend-container{
+  width: 200px;
+  height: 200px;
+  padding: 15px;
+  color: white;
+  position: absolute;
+  font-size: 15px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  height: auto;
+  width: auto;
+  border-radius: 4px;
+  background-color: #282828;
+
+  p{
+    margin: 0 0 5px 0;
+  }
+}
+
+.scale-container{
+   background: linear-gradient(to bottom, hsl(0, 0%, 100%), hsl(0, 100%, 50%));
+   width: 50px;
+   height: 100px;
+}
+
+.legend-information-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.max-min-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 5px;
+
+
+  div{
+      padding: 0;
+      margin: 0;
+  }
+}
+
+.flag-for-popUp{
+  display: flex;
+
+  img{
+    margin-right: 5px;
+  }
+}
+
+.leaflet-div-icon{
+  border-radius: 50%;
+  border: none;
+  background: #d61616;
+}
+
+.leaflet-tooltip{
+    background-color: #282828;
+    border: none;
+    color:  white;
+}
+
+/*========== Modal ==========*/
+.map-block {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .modal-btn {
+    right: 10px;
+    top: 9px;
+  }
+
+  .modal {
+    z-index: 1001;
+    .base-maps-container select {
+      right: 60px;
+    }
+  }
+}

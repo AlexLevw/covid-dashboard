@@ -24,33 +24,32 @@ body {
   display: flex;
 
   .left-section {
-    width: 60%;
+    width: 55%;
     height: 100%;
     background-color: rgb(40, 40, 40);
   }
   
   .right-section {
-    width: 40%;
-    height: 90%;
-    padding: 5px;
+    width: 45%;
+    height: 100%;
+    border-left: solid rgb(35,35,35) 4px;
     display: flex;
     flex-direction: column;
   
     .right-section__top {
-      height: 40%;
+      height: 35%;
       display: flex;
-      flex-direction: row;
     }
   
     .right-section__middle {
-      height: 20%;
-      margin-top: 10px;
+      height: 25%;
+      border-top: solid rgb(35,35,35) 4px;
     }
   
     .right-section__bottom {
       width: 100%;
       height: 40%;
-      border: solid white 2px;
+      background-color: rgb(40,40,40);
     }
   }
 }

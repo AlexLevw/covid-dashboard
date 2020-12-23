@@ -15,8 +15,8 @@ export default function ListItems({ countries, indicator, currentCountry, setCur
         onClick={ () => setCurrentCountry({ name: item.Country, code: item.CountryCode }) }
       >
         <img src={`https://www.countryflags.io/${item.CountryCode}/flat/32.png`} alt="flag"></img>
-        <span className="item-cases">{ item[indicator.api] }</span>
-        <span className="item-country">{ item.Country }</span>
+        <div className="item-cases">{ item[indicator.api] }</div>
+        <div className="item-country">{ item.Country }</div>
       </li>
     )
   });
