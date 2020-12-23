@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export default class byCountryTotal {
+class DataCovid19 {
   requestOptions = {
     method: "GET",
     redirect: "follow",
@@ -19,20 +19,15 @@ export default class byCountryTotal {
     return result;
   }
 
-  // async getCountryTotal() {
-  //   const result = await this.request(
-  //     `https://api.covid19api.com/total/country/south-africa/status/confirmed`,
-  //   );
-
-  //   return result;
-  // }
-
-  async getSummary() {
-    const result = await this.request(`https://api.covid19api.com/summary`);
+  async getData(url) {
+    const result = await this.request(url);
 
     return result;
   }
 }
+
+const ApiDataCovid19 = new DataCovid19();
+export default ApiDataCovid19;
 
 // const getPalnet = (id) => {
 //   return fetch(url)
