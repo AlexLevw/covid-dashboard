@@ -6,8 +6,8 @@ import './Chart.scss';
 export default function Graph({ statisticsData }) {
   const[chartData, setChartData] = useState({});
   const[chartOptions, setChartOptions] = useState({});
-  
-  const confChart = () => {
+
+  useEffect(() => {
     console.log(Chart.default);
     const labels =[]
     const data = []
@@ -62,12 +62,7 @@ export default function Graph({ statisticsData }) {
 					backgroundColor: 'rgba(251, 85, 85, 0.4)'
 				}
     })
-  }
-
-
-  useEffect(() => {
-    confChart();
-  },[])
+  },[statisticsData.Countries])
 
 
 
