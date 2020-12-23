@@ -39,7 +39,7 @@ export default function App() {
     request.getPopulation()
     .then(data => {
       setPopulation(data);
-
+      console.log(data)
     }) 
     .catch(err => {
       console.log(err);
@@ -102,7 +102,12 @@ export default function App() {
           />
         </div>
         <div className="right-section__bottom">
-          <Graph statisticsData={ statisticsData } indicator={ indicator } />
+          <Graph
+            statisticsData={ statisticsData }
+            indicator={ indicator }
+            population={ population }
+            selectedCategory={ selectedCategory }
+            />
         </div>
       </div>
       </div>

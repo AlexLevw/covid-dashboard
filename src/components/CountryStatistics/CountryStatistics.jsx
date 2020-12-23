@@ -27,6 +27,7 @@ export default function CountryStatistics(
         statisticsData.Global.TotalRecovered
       );
     } else {
+      console.log(population)
       const country = statisticsData.Countries.find((elem) => elem.CountryCode === currentCountryCode);
       const countryPopulation = population.find((elem) => elem.alpha2Code === currentCountryCode).population;
       const numberPeople = 100000;
@@ -94,7 +95,7 @@ export default function CountryStatistics(
       Recovered={ Recovered }
     />
   </div>
-
+  console.log(population)
   return (
     <div className="country-statistics">
       <div className="country-statistics__header">
