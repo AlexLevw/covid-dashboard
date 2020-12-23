@@ -42,7 +42,7 @@
 }
 
 .scale-container{
-   background: linear-gradient(to bottom, hsl(0, 0%, 100%), hsl(0, 100%, 50%));
+   background: linear-gradient(to bottom, rgb(0, 0, 0), rgb(255, 0, 0));
    width: 50px;
    height: 100px;
 }
@@ -67,7 +67,6 @@
 
 .flag-for-popUp{
   display: flex;
-
   img{
     margin-right: 5px;
   }
@@ -77,10 +76,12 @@
   border-radius: 50%;
   border: none;
   background: #d61616;
+
 }
 
 .leaflet-tooltip{
     background-color: #282828;
     border: none;
     color:  white;
+    padding: 10px;
 }

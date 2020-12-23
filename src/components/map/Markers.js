@@ -27,17 +27,6 @@ const stateAPI = "https://jsonware.com/json/f69d50fa8da64e065e84bbcb253f1f11.jso
 const populationAPI = "https://restcountries.eu/rest/v2/all?fields=alpha2Code;population";
 
 const population = request(`${populationAPI}`).then( ( data ) => {
-
-  // for (var i = 0; i < dataJSONCopy.length; i++) {
-  //
-  //   const result = data.find((item) => {
-  //     return item['alpha2Code'] === dataJSONCopy[i]['alpha2']});
-  //
-  //     if(!(typeof result === 'undefined')){
-  //       dataJSONCopy[i]['population'] = result['population'];
-  //     }
-  //   }
-    console.log(data);
     return data;
   });
 
@@ -65,11 +54,13 @@ const summary =  request(`${stateAPI}`).then( ( data ) => {
     return dataJSONCopy;
 });
 
+function getMaxOfArray(numArray) {
+  return Math.max.apply(null, numArray);
+}
+
 const allData = summary.then(( data ) => {
 
-  function getMaxOfArray(numArray) {
-    return Math.max.apply(null, numArray);
-  }
+
   const maxTotal = dataJSONCopy.map((data)=>{
     return (!(typeof data['TotalConfirmed'] === 'undefined')) ? data['TotalConfirmed'] : 0;
   })
@@ -85,6 +76,8 @@ const allData = summary.then(( data ) => {
     let iconChangeNew = Math.ceil(data[i]['NewRecovered'] * 50 / maxNewresult)
     data[i]['iconChangeTotal'] = iconChangeTotal
     data[i]['iconChangeNew'] = iconChangeNew
+    data[i]['maxTotal'] = maxTotalresult
+    data[i]['maxDay'] = maxNewresult
   }
   return data;
 })
@@ -102,10 +95,11 @@ const ListCountry = (props) => {
   const srcForFlag = `https://www.countryflags.io/${ props.alpha2 }/flat/16.png`;
 
   let myIconStart = L.divIcon({
-    shadowUrl: icon,
+    icon: icon,
     shadowSize: [12, 12],
     iconSize: [10, 10],
     popupAnchor: [-10, -10],
+
   })
 
   let [ill, onChangeIll] = useState(null);
@@ -113,15 +107,29 @@ const ListCountry = (props) => {
   let [died, onChangeDied] = useState(null);
   let [myIcon, onChangeIcon] = useState(myIconStart);
 
-function changeIcon(size) {
+function changeIcon(size, max, value) {
 
 let newSize  = isNaN(size) ? 0 : size + 10
 
+let color = !isNaN(Math.ceil(value * 255 / max)) ? Math.ceil(value * 255 / max) : 0;
+
+const myCustomColour = `rgba(${color}, 0, 0, 0.7)`
+const myCustomColourborder = `rgba( 255, 0, 0, 0.5)`
+
+const markerHtmlStyles = `
+  background: ${myCustomColour};
+  width: ${newSize}px;
+  height: ${newSize}px;
+  border: 1.5px solid ${myCustomColourborder};
+  display: block;
+  border-radius: 50%`
+
 return myIcon = L.divIcon({
-        shadowUrl: icon,
+        icon: icon,
         shadowSize: [12, 12],
         iconSize: [newSize, newSize],
         popupAnchor: [-10, -10],
+        html: `<span style="${markerHtmlStyles}" />`
       })
 
 }
@@ -135,8 +143,9 @@ useEffect(() => {
      let result = data.find((item) => {
        return item['numeric'] === props.numeric;
      });
-    const newIconForMarkerTotal = changeIcon(result.iconChangeTotal)
-    const newIconForMarkerNew = changeIcon(result.iconChangeNew)
+
+    const newIconForMarkerTotal = changeIcon(result.iconChangeTotal, result.maxTotal, result.TotalConfirmed)
+    const newIconForMarkerNew = changeIcon(result.iconChangeNew, result.maxDay, result.NewConfirmed)
 
      if(kindValue === "total"){
        onChangeIcon(newIconForMarkerTotal)
@@ -154,10 +163,22 @@ useEffect(() => {
 
        if(kindValue === "total100"){
          population.then(( population ) => {
-          const pop = population.find((item) => {
+
+           // Максимальное значение для всего периода
+
+        const arrDataMax = data.map( (itemData) => {
+             const popMax = population.find((itemPop) => {
+                 return itemData['alpha2'] === itemPop.alpha2Code
+                 });
+
+                return !(typeof itemData['TotalConfirmed'] === 'undefined') ? itemData['TotalConfirmed'] / 100000 * popMax['population'] : 0
+             })
+
+        const pop = population.find((item) => {
               return item['alpha2Code'] === result.alpha2
               });
           let countyPopulation = (!(typeof pop === 'undefined')) ? pop['population'] : 0;
+
           // Выздоровевшие на 100 тыс.
           const recoveredTotal100 = (!(typeof result.TotalRecovered === 'undefined'))
           && (!(typeof countyPopulation === 0 ))
@@ -175,19 +196,38 @@ useEffect(() => {
          && (!(typeof countyPopulation === 0 ))
          ? Math.round(result.TotalDeaths / 100000 * countyPopulation) : 0;
          onChangeDied(deathsTotal100);
+
          // Увеличение точки
-         const confirmedTotal100Icon = !isNaN(result.iconChangeTotal) ? ( result.TotalConfirmed * 50 / confirmedTotal100 * result.iconChangeTotal /  result.TotalConfirmed )  : 0;
-         const newIconTotal = changeIcon(confirmedTotal100Icon);
+
+         const maxValueTotal100 = Math.ceil(getMaxOfArray(arrDataMax));
+         const confirmedTotal100Icon = !(confirmedTotal100 === 0) ? ( confirmedTotal100 * 50 / maxValueTotal100 / 5)  : 0;
+         const newIconTotal = changeIcon(confirmedTotal100Icon, maxValueTotal100, confirmedTotal100);
+
          onChangeIcon(newIconTotal);
           })
          }
+
        if(kindValue === "oneDay100"){
          population.then(( population ) => {
+
           const pop = population.find((item) => {
               return item['alpha2Code'] === result.alpha2
               });
           let countyPopulation = (!(typeof pop === 'undefined')) ? pop['population'] : 0;
          // За один день
+
+         // Максимальное значение для дня
+
+          const arrDataDayMax = data.map( (itemData) => {
+
+               const popMax = population.find((itemPop) => {
+                   return itemData['alpha2'] === itemPop.alpha2Code
+                   });
+                  return !(typeof itemData['NewConfirmed'] === 'undefined') ? itemData['NewConfirmed'] / 100000 * popMax['population'] : 0
+
+               })
+
+
          //Востановились
          const recovered = (!(typeof result.NewRecovered === 'undefined'))
          && (!(typeof countyPopulation === 0 ))
@@ -206,10 +246,10 @@ useEffect(() => {
          ? Math.round(result.NewDeaths / 100000 * countyPopulation): 0;
          onChangeDied(deaths);
 
-         const confirmedNew100Icon = !isNaN(result.iconChangeNew) ?
-         ( result.NewConfirmed * 50 / confirmed * result.iconChangeNew /  result.NewConfirmed ) : 0;
-
-         const newIconNew = changeIcon(confirmedNew100Icon);
+         // Размер точки за день
+         const maxValueNew100 = Math.ceil(getMaxOfArray(arrDataDayMax));
+         const confirmedNew100Icon = !(maxValueNew100 === 0) ? ( confirmed * 50 / maxValueNew100)  : 0;
+         const newIconNew = changeIcon(confirmedNew100Icon, maxValueNew100, confirmed);
          onChangeIcon(newIconNew);
         })
      }
@@ -227,7 +267,6 @@ const  [kind, onChangeKind] = useState('total');
           <div className="flag-for-popUp">
             <img src={ srcForFlag } alt="flag"/>  { props.name }
           </div>
-         <br />
           Cases: { ill } <br />
           Recovered: { recover } <br />
           Deaths: { died }
