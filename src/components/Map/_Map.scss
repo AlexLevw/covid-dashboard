@@ -2,12 +2,28 @@
   height: 100%;
   width: 100%;
   font-family: 'JetBrains Mono', monospace;
+
+  .leaflet-control-zoom {
+    border: solid rgb(20, 20, 20) 2px;
+    .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+      background-color: rgb(40, 40, 40);
+      color: white;
+
+      &:hover {
+        background-color: rgb(50, 50, 50);
+      }
+    }
+    .leaflet-control-zoom-in {
+      border-bottom: solid rgb(20, 20, 20) 2px;
+    }
+  }
 }
 
 .base-maps-container{
   border: solid rgb(20, 20, 20) 2px;
 
   select {
+    cursor: pointer;
     width: 230px;
     height: 25px;
     color: white;

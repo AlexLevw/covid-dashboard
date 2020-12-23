@@ -1,21 +1,27 @@
 .statistic-switcher {
-  width: 30%;
+  width: 150px;
   display: flex;
   justify-content: space-between;
 
-  .switcher-title {
-    color: white;
+  &.day {
+    justify-content: flex-start;
   }
 
-  .switcher-array {
-    width: 18px;
-    height: 18px;
-    font-weight: 800;
-    transition: .2s;
+  &.num {
+    justify-content: flex-end;
+  }
 
-    &:last-child {
-      transform: rotate(180deg);
-    }
+  .switcher-title {
+    color: white;
+    margin-top: 5px;
+  }
+
+  .switcher-swap {
+    width: 20px;
+    height: 20px;
+    transition: .2s;
+    cursor: pointer;
+    margin: 5px;
 
     &:hover, &:focus {
       opacity: .7;

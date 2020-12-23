@@ -93,14 +93,15 @@ export default function CountryStatistics(
       Deaths={ Deaths }
       Recovered={ Recovered }
     />
-    { selectedCategory === 'oneDay' || selectedCategory === 'oneDay100'
-      ? <div className="statistic-date"><span>{ lastDate }</span></div>
-      : null }
   </div>
 
   return (
     <div className="country-statistics">
       <div className="country-statistics__header">
+        { selectedCategory === 'oneDay' || selectedCategory === 'oneDay100'
+        ? <div className="statistic-date"><span>{ lastDate }</span></div>
+        : null }
+
         <span>Countries statistics</span>
 
         <Modal modalObj={

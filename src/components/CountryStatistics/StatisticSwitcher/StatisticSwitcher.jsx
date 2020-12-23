@@ -1,6 +1,6 @@
 import React  from 'react';
 import './_StatisticSwitcher.scss';
-import arrow from '../../../modules/assets/arrow.svg'
+import swapIcon from '../../../modules/assets/swap.svg'
 
 const categoriesTitle = {
   'day': {
@@ -42,29 +42,24 @@ export default function StatisticSwitcher({ selectedCategory, selectCategory, ty
       }
     }
   }
+
+  const swap = 
+  <img
+    className="switcher-swap"
+    src={ swapIcon }
+    alt="swap"
+    onClick={ () => {
+      selectCategory(checkCategories())
+    }}
+  />
   
   return (
-    <div className="statistic-switcher">
-      <img
-        className="switcher-array"
-        src={ arrow }
-        alt="arrow"
-        onClick={ () => {
-          selectCategory(checkCategories())
-        } }
-      />
-
+    <div className={`statistic-switcher ${type}`}>
+      { type === 'day' && swap}
       <div className="switcher-title">
         { categoriesTitle[type][selectedCategory] }
       </div>
-
-      <img className="switcher-array"
-        src={ arrow }
-        alt="arrow"
-        onClick={ () => {
-          selectCategory(checkCategories())
-        } }
-        />
+      { type === 'num' && swap}
     </div>
   )
 }
