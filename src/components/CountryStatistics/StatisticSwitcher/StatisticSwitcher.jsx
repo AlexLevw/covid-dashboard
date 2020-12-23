@@ -12,8 +12,8 @@ const categoriesTitle = {
   'num': {
     'total': 'All people',
     'oneDay': 'All people',
-    'total100': 'per 100,000 people',
-    'oneDay100': 'per 100,000 people'
+    'total100': 'per 100,000',
+    'oneDay100': 'per 100,000'
   }
 }
 

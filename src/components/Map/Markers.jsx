@@ -34,8 +34,8 @@ export default function Markers({ statisticsData, population, selectedCategory }
         iconSize = Math.round(((currentCountry.NewConfirmed / currentPopulation.population) * numberPeople));
       }
 
-      if(iconSize < 10) {
-        iconSize = 10;
+      if(iconSize < 8) {
+        iconSize = 8;
       } else if(iconSize > 160) {
         iconSize = 160;
       }
@@ -49,7 +49,7 @@ export default function Markers({ statisticsData, population, selectedCategory }
     `
 
     myIcon = L.divIcon({
-      iconSize: [iconSize < 10 ? 10 : iconSize, iconSize < 10 ? 10 : iconSize],
+      iconSize: [iconSize < 8 ? 8 : iconSize, iconSize < 8 ? 8 : iconSize],
       popupAnchor: [-10, -10],
       html: `<div style="${iconStiles}"></div>`
     });

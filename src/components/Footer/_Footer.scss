@@ -2,7 +2,7 @@
   width: 100%;
   height: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: rgb(45, 45, 45);
 
@@ -10,7 +10,7 @@
     width: 70px;
     display: block;
     transition: .2s;
-    margin-right: 20px;
+    margin-left: 10px;
     
     img {
       width: 100%;
@@ -24,14 +24,14 @@
   .authors {
     color: white;
 
-    .title {
-      margin-right: 10px;
-      opacity: .8;
-    }
     .author-name {
       color: white;
       font-size: 1.1em;
       margin-right: 12px;
+
+      &:hover {
+        opacity: .7;
+      }
 
       .github-logo {
         width: 20px;

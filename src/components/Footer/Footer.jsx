@@ -8,11 +8,10 @@ export default function Footer() {
   return (
     <div className="footer">
       <a className="rsLogo" href="https://rs.school/js/">
-
       <img src={ rsSchoolLogo} alt="logo"/>
       </a>
+
       <div className="authors">
-        <span className="title">Authors:</span>
         <a className="author-name" href="https://github.com/AlexLevw">
           <img className="github-logo" src={ githubLogo } alt="github"/>
           AlexLevw
@@ -26,6 +25,8 @@ export default function Footer() {
           koverchik
         </a>
       </div>
+
+      <div style={{width:'70px'}}></div>
     </div>
   );
 } 

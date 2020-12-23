@@ -102,7 +102,7 @@ export default function App() {
           />
         </div>
         <div className="right-section__bottom">
-          <Graph statisticsData={ statisticsData } />
+          <Graph statisticsData={ statisticsData } indicator={ indicator } />
         </div>
       </div>
       </div>

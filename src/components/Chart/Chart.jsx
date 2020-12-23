@@ -3,28 +3,35 @@ import { Bar } from "react-chartjs-2";
 import Modal from '../Modal/Modal';
 import './Chart.scss';
 
-export default function Graph({ statisticsData }) {
+export default function Graph({ statisticsData, indicator }) {
   const[chartData, setChartData] = useState({});
   const[chartOptions, setChartOptions] = useState({});
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const labels =[]
-    const data = []
-    statisticsData.Countries.forEach(el => {
-      labels.push(el.Country);
-      if(Math.floor(el.TotalRecovered / 10000)) {
-        data.push(Math.floor(el.TotalRecovered / 10000))
-      }
+    let l = [];
+    let d = [];
+    const sortCountries = statisticsData.Countries.sort((a, b) => {
+      return a[indicator.api] - b[indicator.api];
+    }).slice(-(statisticsData.Countries.length / 2));
+
+    sortCountries.forEach(el => {
+      l.push(el.Country);
+      d.push(el[indicator.api])
     })
-    let sortData = data.sort((a,b) => a - b);
+
+    setLabels(l);
+    setData(d);
+
     setChartData({
       backgroundColor: 'red',
       labels: labels,
       display: false,
       datasets: [
         {
-          label: 'Global Cases by Countrys',
-          data: sortData,
+          label: `Global ${indicator.title} by Countries`,
+          data: data,
           backgroundColor: "rgba(160,34,36,1)",
           strokeColor: "brown",
           borderWidth: 1,
@@ -37,7 +44,6 @@ export default function Graph({ statisticsData }) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        
         xAxes:[{
           gridLines: {
             lineWidth: 0,
@@ -52,21 +58,21 @@ export default function Graph({ statisticsData }) {
             lineWidth: 0,
             color: "rgba(255,255,255,0)"
         },
-            ticks: {
-                beginAtZero: true,
-            }
+          ticks: {
+            beginAtZero: true,
+          }
         }]
       },
       chartArea: {
-					backgroundColor: 'rgba(251, 85, 85, 0.4)'
-				}
+				backgroundColor: 'rgba(251, 85, 85, 0.4)'
+			}
     })
-  },[statisticsData.Countries])
+  },[statisticsData.Countries, data, indicator, labels])
 
 
 
   return (
-  <div style={{width: '100%', height: '100%'}}>
+  <div className="chart-block">
     <Modal modalObj={
       <Bar
       data={chartData}
