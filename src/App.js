@@ -5,6 +5,7 @@ import CountryStatistics from './components/CountryStatistics/CountryStatistics'
 import Footer from './components/Footer/Footer';
 import Loader from './components/Loader/Loader';
 import Map from './components/Map/Map';
+import Graph from "./components/Chart/Chart"
 import Requests from './modules/data/data';
 import './App.scss';
 
@@ -101,7 +102,7 @@ export default function App() {
           />
         </div>
         <div className="right-section__bottom">
-          
+          <Graph statisticsData={ statisticsData } />
         </div>
       </div>
       </div>
