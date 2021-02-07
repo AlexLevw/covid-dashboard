@@ -10,8 +10,8 @@ export default function Graph({ statisticsData, indicator, population, selectedC
   const[chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    let labels = [];
-    let data = [];
+    const labels = [];
+    const data = [];
 
     const sortCountries = statisticsData.Countries.sort((a, b) => {
       const aPopulation = population.find((elem) => elem.alpha2Code === a.CountryCode);

@@ -1,0 +1,41 @@
+.container{
+  position: absolute;
+  padding: 4px 12px 10px;
+  color: white;
+  font-size: 15px;
+  bottom: 15px;
+  left: 15px;
+  z-index: 1000;
+  height: auto;
+  width: auto;
+  border-radius: 5px;
+  background-color: #282828;
+}
+
+.title{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.main{
+  display: flex;
+}
+
+.scale{
+  background: linear-gradient(to bottom, hsl(0, 0%, 100%), hsl(0, 100%, 50%));
+  width: 50px;
+  height: 100px;
+}
+
+.max_min{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0px 5px;
+
+
+  div{
+    padding: 0;
+    margin: 0;
+  }
+}

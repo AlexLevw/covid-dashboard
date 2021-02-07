@@ -69,47 +69,47 @@ export default function App() {
   (
     <div className="App">
       <div className="main">
-      <div className="left-section">
-        <Map 
-          statisticsData={statisticsData }
-          population={ population }
-          selectedCategory={ selectedCategory }
-          selectCategory={ selectCategory }
-        />
-      </div>
-      <div className="right-section">
-        <div className="right-section__top">
-          <GlobalStatistics
-            GlobalData={ statisticsData.Global }
-            setCurrentCountry={ setCurrentCountry }
-          />
-          <CountriesList
-            statisticsData={ statisticsData }
-            indicator={ indicator }
-            changeIndicator={ changeIndicator }
-            currentCountry={ currentCountry }
-            setCurrentCountry={ setCurrentCountry }
-          />
-        </div>
-        <div className="right-section__middle">
-          <CountryStatistics
-            statisticsData={ statisticsData }
-            currentCountryName={ currentCountry.name }
-            currentCountryCode={ currentCountry.code }
+        <div className="left-section">
+          <Map 
+            statisticsData={statisticsData }
             population={ population }
             selectedCategory={ selectedCategory }
             selectCategory={ selectCategory }
           />
         </div>
-        <div className="right-section__bottom">
-          <Graph
-            statisticsData={ statisticsData }
-            indicator={ indicator }
-            population={ population }
-            selectedCategory={ selectedCategory }
+        <div className="right-section">
+          <div className="right-section__top">
+            <GlobalStatistics
+              GlobalData={ statisticsData.Global }
+              setCurrentCountry={ setCurrentCountry }
             />
+            <CountriesList
+              statisticsData={ statisticsData }
+              indicator={ indicator }
+              changeIndicator={ changeIndicator }
+              currentCountry={ currentCountry }
+              setCurrentCountry={ setCurrentCountry }
+            />
+          </div>
+          <div className="right-section__middle">
+            <CountryStatistics
+              statisticsData={ statisticsData }
+              currentCountryName={ currentCountry.name }
+              currentCountryCode={ currentCountry.code }
+              population={ population }
+              selectedCategory={ selectedCategory }
+              selectCategory={ selectCategory }
+            />
+          </div>
+          <div className="right-section__bottom">
+            <Graph
+              statisticsData={ statisticsData }
+              indicator={ indicator }
+              population={ population }
+              selectedCategory={ selectedCategory }
+              />
+          </div>
         </div>
-      </div>
       </div>
       <Footer />
     </div>

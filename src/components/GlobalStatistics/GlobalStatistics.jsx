@@ -12,14 +12,15 @@ export default function GlobalStatistics({ GlobalData, setCurrentCountry }) {
       setDeaths(GlobalData.TotalDeaths);
       setRecovered(GlobalData.TotalRecovered);
   }, [GlobalData]);
+
   return (
-  <button className="global-statistics" onClick={ () => setCurrentCountry({name: 'Global', code: 'Global'}) }>
-    <span className="global-statistics__title">Global Statistics</span>
-    <div className="global-statistics__list">
-      <GlobalItem label="Cases" numbers={ Confirmed } />
-      <GlobalItem label="Deaths" numbers={ Deaths } />
-      <GlobalItem label="Recovered" numbers={ Recovered } />
-    </div>
-  </button>
-  )
+    <button className="global-statistics" onClick={ () => setCurrentCountry({name: 'Global', code: 'Global'}) }>
+      <span className="global-statistics__title">Global Statistics</span>
+      <div className="global-statistics__list">
+        <GlobalItem label="Cases" numbers={ Confirmed } />
+        <GlobalItem label="Deaths" numbers={ Deaths } />
+        <GlobalItem label="Recovered" numbers={ Recovered } />
+      </div>
+    </button>
+  );
 }
