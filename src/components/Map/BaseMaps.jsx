@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { PropTypes } from "prop-types";
+import { CommonContext } from "../../contexts";
 
-export default function BaseMap({ selectedCategory, selectCategory }) {
+export default function BaseMap({ selectCategory }) {
+  const { selectedCategory } = useContext(CommonContext);
+
+  function handleOnChange(e) {
+    selectCategory(e.currentTarget.value);
+  }
 
   return (
     <div className="base-maps-container">
-      <select onChange={ (e) => {selectCategory(e.currentTarget.value)} } value={ selectedCategory }>
+      <select onChange={handleOnChange} value={selectedCategory}>
         <option value="total">All Population </option>
         <option value="oneDay">Last Day</option>
         <option value="total100">All Cases per 100 000 people</option>
@@ -12,4 +19,8 @@ export default function BaseMap({ selectedCategory, selectCategory }) {
       </select>
     </div>
   );
+}
+
+BaseMap.propTypes = {
+  selectCategory: PropTypes.func.isRequired,
 };

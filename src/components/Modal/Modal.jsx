@@ -1,39 +1,50 @@
-import React from 'react';
-import './_Modal.scss';
-import expand from '../../modules/assets/full-screen.svg';
-import compress from '../../modules/assets/compress.svg';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import "./_Modal.scss";
+import expand from "../../modules/assets/full-screen.svg";
+import compress from "../../modules/assets/compress.svg";
 
-export default class Modal extends React.Component {
-  state = {
-    isOpen: false
+export default function Modal({ modalObj, filteringCountries }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleExpandBtnClick() {
+    setIsOpen(true);
+    if (filteringCountries) filteringCountries("");
   }
 
-  render() {
-    return (
-      <React.Fragment>
+  function handleCompressBtnClick() {
+    setIsOpen(false);
+  }
+
+  return (
+    <>
+      <button
+        className="modal-btn expand"
+        onClick={handleExpandBtnClick}
+        type="button"
+      >
+        <img src={expand} alt="expand" />
+      </button>
+
+      {isOpen && <div className="modal">{isOpen && modalObj}</div>}
+      {isOpen && (
         <button
-          className="modal-btn expand"
-          onClick={ () => {
-            this.setState({ isOpen: true });
-            if(this.props.filteringCountries) this.props.filteringCountries('');
-          }}
+          className="modal-btn compress"
+          onClick={handleCompressBtnClick}
+          type="button"
         >
-          <img src={ expand } alt="expand"/>
+          <img src={compress} alt="compress" />
         </button>
-
-        {this.state.isOpen && <div className="modal">
-          {this.state.isOpen && this.props.modalObj}  
-        </div>}
-        {this.state.isOpen && (
-          <button
-            className="modal-btn compress"
-            onClick={ () => this.setState({ isOpen: false }) }
-          >
-            <img src={ compress } alt="compress"/>
-          </button>
-        )}
-
-      </React.Fragment>
-    );
-  }
+      )}
+    </>
+  );
 }
+
+Modal.propTypes = {
+  modalObj: PropTypes.element.isRequired,
+  filteringCountries: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  filteringCountries: null,
+};

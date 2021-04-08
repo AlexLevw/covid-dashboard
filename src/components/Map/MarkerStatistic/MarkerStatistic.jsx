@@ -1,54 +1,82 @@
-import React from 'react';
+import React from "react";
 
-const numberPeople = 100000;
+const POPULATION = 100000;
 
-export default function MarkerStatistic({ currentCountry, currentPopulation, selectedCategory }) {
-  if(selectedCategory === 'total'){
-    return(
+export default function MarkerStatistic({
+  currentCountry,
+  currentPopulation,
+  selectedCategory,
+}) {
+  if (selectedCategory === "total") {
+    return (
       <div>
-        <div>Cases: { currentCountry.TotalConfirmed }</div>
-        <div>Deaths: { currentCountry.TotalDeaths }</div>
-        <div>Recovered: { currentCountry.TotalRecovered }</div>
+        <div>Cases: {currentCountry.TotalConfirmed}</div>
+        <div>Deaths: {currentCountry.TotalDeaths}</div>
+        <div>Recovered: {currentCountry.TotalRecovered}</div>
       </div>
-    );   
-  } else if(selectedCategory === 'oneDay'){
-
-    return(
+    );
+  }
+  if (selectedCategory === "oneDay") {
+    return (
       <div>
-        <div>Cases: { currentCountry.NewConfirmed }</div>
-        <div>Deaths: { currentCountry.NewDeaths }</div>
-        <div>Recovered: { currentCountry.NewRecovered }</div>
+        <div>Cases: {currentCountry.NewConfirmed}</div>
+        <div>Deaths: {currentCountry.NewDeaths}</div>
+        <div>Recovered: {currentCountry.NewRecovered}</div>
       </div>
-    );   
-  } else if(selectedCategory === 'total100'){
-
-    return(
+    );
+  }
+  if (selectedCategory === "total100") {
+    return (
       <div>
-        <div>Cases: {
-          Math.round((currentCountry.TotalConfirmed / currentPopulation.population) * numberPeople)
-        }</div>
-        <div>Deaths: {
-          Math.round((currentCountry.TotalDeaths / currentPopulation.population) * numberPeople)
-        }</div>
-        <div>Recovered: {
-          Math.round((currentCountry.TotalRecovered / currentPopulation.population) * numberPeople)
-        }</div>
+        <div>
+          Cases:{" "}
+          {Math.round(
+            (currentCountry.TotalConfirmed / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
+        <div>
+          Deaths:{" "}
+          {Math.round(
+            (currentCountry.TotalDeaths / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
+        <div>
+          Recovered:{" "}
+          {Math.round(
+            (currentCountry.TotalRecovered / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
       </div>
-    );   
-  } else if(selectedCategory === 'oneDay100'){
-
-    return(
+    );
+  }
+  if (selectedCategory === "oneDay100") {
+    return (
       <div>
-        <div>Cases: {
-          Math.round((currentCountry.NewConfirmed / currentPopulation.population) * numberPeople)
-        }</div>
-        <div>Deaths: {
-          Math.round((currentCountry.NewDeaths / currentPopulation.population) * numberPeople)
-        }</div>
-        <div>Recovered: {
-          Math.round((currentCountry.NewRecovered / currentPopulation.population) * numberPeople)
-        }</div>
+        <div>
+          Cases:{" "}
+          {Math.round(
+            (currentCountry.NewConfirmed / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
+        <div>
+          Deaths:{" "}
+          {Math.round(
+            (currentCountry.NewDeaths / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
+        <div>
+          Recovered:{" "}
+          {Math.round(
+            (currentCountry.NewRecovered / currentPopulation.population) *
+              POPULATION
+          )}
+        </div>
       </div>
-    );   
+    );
   }
 }

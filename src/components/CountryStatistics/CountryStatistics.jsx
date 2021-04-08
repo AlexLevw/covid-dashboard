@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import StatisticItems from './StatisticItems/StatisticItems';
-import StatisticSwitcher from './StatisticSwitcher/StatisticSwitcher';
-import Modal from '../Modal/Modal';
-import './_CountryStatistics.scss';
+import React, { useEffect, useState, useContext } from "react";
+import { PropTypes } from "prop-types";
+import StatisticItems from "./StatisticItems/StatisticItems";
+import StatisticSwitcher from "./StatisticSwitcher/StatisticSwitcher";
+import Modal from "../Modal/Modal";
+import { CommonContext } from "../../contexts";
+import "./_CountryStatistics.scss";
 
-export default function CountryStatistics(
-  { currentCountryName, currentCountryCode, statisticsData, population,
-    selectedCategory, selectCategory}
-  ){
+export default function CountryStatistics({
+  currentCountryName,
+  currentCountryCode,
+  selectCategory,
+}) {
+  const { statisticsData, population, selectedCategory } = useContext(
+    CommonContext
+  );
+
   const [Confirmed, setConfirmed] = useState(0);
   const [Deaths, setDeaths] = useState(0);
   const [Recovered, setRecovered] = useState(0);
@@ -18,29 +25,40 @@ export default function CountryStatistics(
     setDeaths(deaths);
     setRecovered(recovered);
   }
-  
+
   useEffect(() => {
-    if(currentCountryCode === 'Global') {
+    if (currentCountryCode === "Global") {
       setStatistic(
         statisticsData.Global.TotalConfirmed,
         statisticsData.Global.TotalDeaths,
         statisticsData.Global.TotalRecovered
       );
     } else {
-      console.log(population)
-      const country = statisticsData.Countries.find((elem) => elem.CountryCode === currentCountryCode);
-      const countryPopulation = population.find((elem) => elem.alpha2Code === currentCountryCode).population;
+      const country = statisticsData.Countries.find(
+        (elem) => elem.CountryCode === currentCountryCode
+      );
+      const countryPopulation = population.find(
+        (elem) => elem.alpha2Code === currentCountryCode
+      ).population;
       const numberPeople = 100000;
-      
-      if(selectedCategory === 'total') {
-        setStatistic(country.TotalConfirmed, country.TotalDeaths, country.TotalRecovered);
-      } else if(selectedCategory === 'total100'){
+
+      if (selectedCategory === "total") {
         setStatistic(
-          Math.round((country.TotalConfirmed / countryPopulation) * numberPeople),
-          Math.round((country.TotalDeaths / countryPopulation) * numberPeople),
-          Math.round((country.TotalRecovered / countryPopulation) * numberPeople)
+          country.TotalConfirmed,
+          country.TotalDeaths,
+          country.TotalRecovered
         );
-      } else if(selectedCategory === 'oneDay') {
+      } else if (selectedCategory === "total100") {
+        setStatistic(
+          Math.round(
+            (country.TotalConfirmed / countryPopulation) * numberPeople
+          ),
+          Math.round((country.TotalDeaths / countryPopulation) * numberPeople),
+          Math.round(
+            (country.TotalRecovered / countryPopulation) * numberPeople
+          )
+        );
+      } else if (selectedCategory === "oneDay") {
         const countryDate = new Date(country.Date);
 
         setLastDate(`
@@ -49,8 +67,12 @@ export default function CountryStatistics(
         ${countryDate.getFullYear()}
         `);
 
-        setStatistic(country.NewConfirmed, country.NewDeaths, country.NewRecovered);
-      } else if(selectedCategory === 'oneDay100') {
+        setStatistic(
+          country.NewConfirmed,
+          country.NewDeaths,
+          country.NewRecovered
+        );
+      } else if (selectedCategory === "oneDay100") {
         const countryDate = new Date(country.Date);
 
         setLastDate(`
@@ -68,50 +90,52 @@ export default function CountryStatistics(
     }
   }, [statisticsData, currentCountryCode, population, selectedCategory]);
 
-  const statisticsBlock = 
-  <div className="main-block">
-    <div className="country-statistics__top">
-      <StatisticSwitcher
-        selectedCategory={ selectedCategory }
-        selectCategory={ selectCategory }
-        type={ 'day' }
-      />
-      <div className="country-block">
-        {
-          currentCountryName === 'Global' ? null
-          : <img className="country-flag" src={ `https://www.countryflags.io/${currentCountryCode}/flat/32.png` } alt="flag"/>
-        }
-        <span className="country-title">{ currentCountryName }</span>
+  const statisticsBlock = (
+    <div className="main-block">
+      <div className="country-statistics__top">
+        <StatisticSwitcher selectCategory={selectCategory} type="day" />
+        <div className="country-block">
+          {currentCountryName === "Global" ? null : (
+            <img
+              className="country-flag"
+              src={`https://www.countryflags.io/${currentCountryCode}/flat/32.png`}
+              alt="flag"
+            />
+          )}
+          <span className="country-title">{currentCountryName}</span>
+        </div>
+        <StatisticSwitcher selectCategory={selectCategory} type="num" />
       </div>
-      <StatisticSwitcher 
-        selectedCategory={ selectedCategory }
-        selectCategory={ selectCategory }
-        type={ 'num' }
+      <StatisticItems
+        Confirmed={Confirmed}
+        Deaths={Deaths}
+        Recovered={Recovered}
       />
     </div>
-    <StatisticItems
-      Confirmed={ Confirmed }
-      Deaths={ Deaths }
-      Recovered={ Recovered }
-    />
-  </div>
-  console.log(population)
+  );
+
   return (
     <div className="country-statistics">
       <div className="country-statistics__header">
-        { selectedCategory === 'oneDay' || selectedCategory === 'oneDay100'
-        ? <div className="statistic-date"><span>{ lastDate }</span></div>
-        : null }
+        {selectedCategory === "oneDay" || selectedCategory === "oneDay100" ? (
+          <div className="statistic-date">
+            <span>{lastDate}</span>
+          </div>
+        ) : null}
 
         <span>Countries statistics</span>
 
-        <Modal modalObj={
-          <div className="statistics-modal">
-            { statisticsBlock }
-          </div>
-        }/>
+        <Modal
+          modalObj={<div className="statistics-modal">{statisticsBlock}</div>}
+        />
       </div>
-      { statisticsBlock }
+      {statisticsBlock}
     </div>
-  ); 
+  );
 }
+
+CountryStatistics.propTypes = {
+  currentCountryName: PropTypes.string.isRequired,
+  currentCountryCode: PropTypes.string.isRequired,
+  selectCategory: PropTypes.func.isRequired,
+};

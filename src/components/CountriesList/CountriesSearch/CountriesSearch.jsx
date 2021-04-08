@@ -1,29 +1,34 @@
-import React from 'react';
-import './_CountriesSearch.scss';
+import React, { useRef, memo } from "react";
+import { PropTypes } from "prop-types";
+import "./_CountriesSearch.scss";
 
-export default function CountriesSearch({ filteringCountries }) {
-  
-  function onSearch(e) {
-    filteringCountries(e.target.value);
-  }
+function CountriesSearch({ filteringCountries }) {
+  const inputRef = useRef();
 
+  const onSearch = (e) => filteringCountries(e.target.value);
   function clearSearch() {
-    filteringCountries('');
-    document.querySelector('.search-bar').value = '';
+    filteringCountries("");
+    inputRef.current.value = "";
   }
 
   return (
     <div className="countries-search">
-      <input 
+      <input
         className="search-bar"
-        onKeyUp={ onSearch }
+        ref={inputRef}
+        onKeyUp={onSearch}
         type="text"
-        name="searchBar"
         placeholder="search for a countries"
       />
-      <div className="clear-btn" onClick={ clearSearch }>
+      <button className="clear-btn" onClick={clearSearch} type="button">
         <span>clear</span>
-      </div>
+      </button>
     </div>
   );
 }
+
+CountriesSearch.propTypes = {
+  filteringCountries: PropTypes.func.isRequired,
+};
+
+export default memo(CountriesSearch);

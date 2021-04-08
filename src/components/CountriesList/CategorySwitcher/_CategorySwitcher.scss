@@ -9,11 +9,21 @@
   border-top: solid rgba(40, 40, 40, 1) 4px;
   background-color: rgb(40, 40, 40);
   
-  .switcher-array {
-    width: 18px;
-    height: 18px;
+  .switcher-arrow {
+    width: 24px;
+    height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 50%;
+    background-color: rgb(70, 70, 70);
     font-weight: 800;
     transition: .2s;
+
+    img {
+      width: 80%;
+    }
 
     &:last-child {
       transform: rotate(180deg);
@@ -26,9 +36,5 @@
     &:active {
       opacity: 1;
     }
-  }
-
-  .switcher-title {
-
   }
 }

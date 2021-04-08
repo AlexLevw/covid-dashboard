@@ -9,6 +9,8 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    border: 0;
+    background-color: rgba(80, 80, 80, .0);
     border-bottom: solid rgb(80, 80, 80) 2px;
     list-style: none;
     cursor: pointer;

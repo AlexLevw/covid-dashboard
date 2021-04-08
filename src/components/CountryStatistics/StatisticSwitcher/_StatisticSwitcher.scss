@@ -3,14 +3,6 @@
   display: flex;
   justify-content: space-between;
 
-  &.day {
-    justify-content: flex-start;
-  }
-
-  &.num {
-    justify-content: flex-end;
-  }
-
   .switcher-title {
     color: white;
     margin: 8px 0 0 7px;
@@ -19,12 +11,13 @@
   .switcher-swap {
     width: 27px;
     height: 27px;
-    transition: .2s;
-    cursor: pointer;
     margin: 5px;
     padding: 4px;
-    background-color: rgb(55, 55, 55);
+    border: 0;
     border-radius: 50%;
+    background-color: rgb(55, 55, 55);
+    transition: .2s;
+    cursor: pointer;
 
     &:hover, &:focus {
       background-color: rgb(70, 70, 70);

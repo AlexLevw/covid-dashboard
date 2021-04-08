@@ -13,10 +13,11 @@
   .clear-btn {
     cursor: pointer;
     width: 20%;
-    background-color: rgba(170, 40, 40, 1);
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 0;
+    background-color: rgba(170, 40, 40, 1);
     transition: .2s;
 
     &:hover {
